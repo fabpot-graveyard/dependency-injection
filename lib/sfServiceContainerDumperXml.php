@@ -28,7 +28,17 @@ class sfServiceContainerDumperXml extends sfServiceContainerDumper
    */
   public function dump(array $options = array())
   {
-    return $this->startXml()."\n  <parameters>\n".$this->convertParameters($this->escape($this->container->getParameters()), 'parameter', 4)."  </parameters>\n  <services>\n".$this->addServices()."  </services>\n".$this->endXml();
+    return $this->startXml().$this->addParameters().$this->addServices().$this->endXml();
+  }
+
+  protected function addParameters()
+  {
+    if (!$this->container->getParameters())
+    {
+      return '';
+    }
+
+    return sprintf("  <parameters>\n%s  </parameters>\n", $this->convertParameters($this->escape($this->container->getParameters()), 'parameter', 4));
   }
 
   protected function addService($id, $definition)
@@ -88,13 +98,18 @@ class sfServiceContainerDumperXml extends sfServiceContainerDumper
 
   protected function addServices()
   {
+    if (!$this->container->getServiceDefinitions())
+    {
+      return '';
+    }
+
     $code = '';
     foreach ($this->container->getServiceDefinitions() as $id => $definition)
     {
       $code .= $this->addService($id, $definition);
     }
 
-    return $code;
+    return sprintf("  <services>\n%s  </services>\n", $code);
   }
 
   protected function convertParameters($parameters, $type='parameter', $depth = 2)
@@ -131,6 +146,7 @@ class sfServiceContainerDumperXml extends sfServiceContainerDumper
 <?xml version="1.0" ?>
 
 <container xmlns="http://symfony-project.org/2.0/container">
+
 EOF;
   }
 
