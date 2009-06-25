@@ -57,7 +57,7 @@ class sfServiceSimpleXMLElement extends SimpleXMLElement
           $arguments[$key] = new sfServiceReference((string) $arg['id']);
           break;
         case 'collection':
-          $arguments[$key] = $arg->getArgumentsAsPhpForServices($permanent ? $name : 'argument');
+          $arguments[$key] = $arg->getArgumentsAsPhpForServices($permanent ? $name : 'argument', $permanent);
           break;
         case 'string':
           $arguments[$key] = (string) $arg;
