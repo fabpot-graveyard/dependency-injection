@@ -30,7 +30,7 @@
   <xs:complexType name="configurator">
     <xs:attribute name="id" type="xs:string" />
     <xs:attribute name="service" type="xs:string" />
-    <xs:attribute name="class" type="boolean" />
+    <xs:attribute name="class" type="xs:string" />
     <xs:attribute name="method" type="xs:string" />
     <xs:attribute name="function" type="xs:string" />
   </xs:complexType>

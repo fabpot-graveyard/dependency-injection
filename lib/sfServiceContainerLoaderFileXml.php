@@ -153,7 +153,7 @@ class sfServiceContainerLoaderFileXml extends sfServiceContainerLoaderFile
         }
         else
         {
-          $class = $service->configurator['class'];
+          $class = (string) $service->configurator['class'];
         }
 
         $definition->setConfigurator(array($class, (string) $service->configurator['method']));
