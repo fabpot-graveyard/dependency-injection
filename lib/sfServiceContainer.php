@@ -24,9 +24,10 @@
 class sfServiceContainer implements sfServiceContainerInterface, ArrayAccess, Iterator
 {
   protected
-    $parameters = array(),
-    $services   = array(),
-    $count      = 0;
+    $allServices = array(),
+    $parameters  = array(),
+    $services    = array(),
+    $count       = 0;
 
   /**
    * Constructor.
@@ -80,13 +81,13 @@ class sfServiceContainer implements sfServiceContainerInterface, ArrayAccess, It
    *
    * @return mixed  The parameter value
    *
-   * @throw  RuntimeException if the parameter is not defined
+   * @throw  InvalidArgumentException if the parameter is not defined
    */
   public function getParameter($name)
   {
     if (!$this->hasParameter($name))
     {
-      throw new RuntimeException(sprintf('The parameter "%s" must be defined.', $name));
+      throw new InvalidArgumentException(sprintf('The parameter "%s" must be defined.', $name));
     }
 
     return $this->parameters[strtolower($name)];
@@ -141,6 +142,9 @@ class sfServiceContainer implements sfServiceContainerInterface, ArrayAccess, It
   /**
    * Gets a service.
    *
+   * If a service is both defined through a setService() method and
+   * with a set*Service() method, the former has always precedence.
+   *
    * @param  string $id The service identifier
    *
    * @return object The associated service
@@ -149,17 +153,17 @@ class sfServiceContainer implements sfServiceContainerInterface, ArrayAccess, It
    */
   public function getService($id)
   {
+    if (isset($this->services[$id]))
+    {
+      return $this->services[$id];
+    }
+
     if (method_exists($this, $method = 'get'.self::camelize($id).'Service'))
     {
       return $this->$method();
     }
 
-    if (!isset($this->services[$id]))
-    {
-      throw new InvalidArgumentException(sprintf('The service "%s" does not exist.', $id));
-    }
-
-    return $this->services[$id];
+    throw new InvalidArgumentException(sprintf('The service "%s" does not exist.', $id));
   }
 
   /**
@@ -257,9 +261,19 @@ class sfServiceContainer implements sfServiceContainerInterface, ArrayAccess, It
    */
   public function rewind()
   {
-    reset($this->services);
+    $services = array();
+    $r = new ReflectionClass($this);
+    foreach ($r->getMethods() as $method)
+    {
+      if (preg_match('/^get(.+)Service$/', $name = $method->getName(), $match))
+      {
+        $services[self::underscore($match[1])] = $this->$name();
+      }
+    }
 
-    $this->count = count($this->services);
+    $this->allServices = array_merge($services, $this->services);
+
+    $this->count = count($this->allServices);
   }
 
   /**
@@ -269,7 +283,7 @@ class sfServiceContainer implements sfServiceContainerInterface, ArrayAccess, It
    */
   public function key()
   {
-    return key($this->services);
+    return key($this->allServices);
   }
 
   /**
@@ -279,7 +293,7 @@ class sfServiceContainer implements sfServiceContainerInterface, ArrayAccess, It
    */
   public function current()
   {
-    return current($this->services);
+    return current($this->allServices);
   }
 
   /**
@@ -287,7 +301,7 @@ class sfServiceContainer implements sfServiceContainerInterface, ArrayAccess, It
    */
   public function next()
   {
-    next($this->services);
+    next($this->allServices);
 
     --$this->count;
   }
@@ -305,5 +319,10 @@ class sfServiceContainer implements sfServiceContainerInterface, ArrayAccess, It
   static public function camelize($id)
   {
     return preg_replace(array('#\.#', '#/(.?)#e', '/(^|_|-)+(.)/e'), array('_', "'::'.strtoupper('\\1')", "strtoupper('\\2')"), $id);
+  }
+
+  static public function underscore($id)
+  {
+    return strtolower(preg_replace(array('/([A-Z]+)([A-Z][a-z])/', '/([a-z\d])([A-Z])/'), array('\\1_\\2', '\\1_\\2'), $id));
   }
 }
