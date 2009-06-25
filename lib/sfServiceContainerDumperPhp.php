@@ -32,9 +32,12 @@ class sfServiceContainerDumperPhp extends sfServiceContainerDumper
    */
   public function dump(array $options = array())
   {
-    $class = isset($options['class']) ? $options['class'] : 'ProjectServiceContainer';
+    $options = array_merge(array(
+      'class'      => 'ProjectServiceContainer',
+      'base_class' => 'sfServiceContainer',
+    ), $options);
 
-    return $this->startClass($class).$this->addServices().$this->endClass();
+    return $this->startClass($options['class'], $options['base_class']).$this->addServices().$this->endClass();
   }
 
   protected function addServiceInclude($id, $definition)
@@ -191,12 +194,12 @@ EOF;
     return $code;
   }
 
-  protected function startClass($class)
+  protected function startClass($class, $baseClass)
   {
     $code = <<<EOF
 <?php
 
-class $class extends sfServiceContainer
+class $class extends $baseClass
 {
   protected \$shared = array();
 
