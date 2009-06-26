@@ -176,6 +176,11 @@ class sfServiceContainerLoaderFileYaml extends sfServiceContainerLoaderFile
 
   protected function validate($content, $file)
   {
+    if (is_null($content))
+    {
+      return $content;
+    }
+
     if (!is_array($content))
     {
       throw new InvalidArgumentException(sprintf('The service file "%s" is not valid.', $file));

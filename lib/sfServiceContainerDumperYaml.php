@@ -91,6 +91,11 @@ class sfServiceContainerDumperYaml extends sfServiceContainerDumper
 
   protected function addServices()
   {
+    if (!$this->container->getServiceDefinitions())
+    {
+      return '';
+    }
+
     $code = "services:\n";
     foreach ($this->container->getServiceDefinitions() as $id => $definition)
     {
@@ -102,6 +107,11 @@ class sfServiceContainerDumperYaml extends sfServiceContainerDumper
 
   protected function addParameters()
   {
+    if (!$this->container->getParameters())
+    {
+      return '';
+    }
+
     return sfYaml::dump(array('parameters' => $this->escape($this->container->getParameters())), 2);
   }
 
