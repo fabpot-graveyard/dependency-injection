@@ -29,7 +29,13 @@ class sfServiceContainerLoaderFileIni extends sfServiceContainerLoaderFile
     $parameters = array();
     foreach ($files as $file)
     {
-      if (false === $result = parse_ini_file($this->getAbsolutePath($file), true))
+      $path = $this->getAbsolutePath($file);
+      if (!file_exists($path))
+      {
+        throw new InvalidArgumentException(sprintf('The %s file does not exist.', $file));
+      }
+
+      if (false === $result = parse_ini_file($path, true))
       {
         throw new InvalidArgumentException(sprintf('The %s file is not valid.', $file));
       }
