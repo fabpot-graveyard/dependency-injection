@@ -23,11 +23,6 @@ class sfServiceContainerLoaderFileYaml extends sfServiceContainerLoaderFile
 {
   public function doLoad($files)
   {
-    if (!is_array($files))
-    {
-      $files = array($files);
-    }
-
     return $this->parse($this->getFilesAsArray($files));
   }
 

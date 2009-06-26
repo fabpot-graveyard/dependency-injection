@@ -40,6 +40,26 @@ abstract class sfServiceContainerLoaderFile extends sfServiceContainerLoader
     $this->paths = $paths;
   }
 
+  /**
+   * Loads a resource.
+   *
+   * A resource is a file or an array of files.
+   *
+   * The concrete classes always hava access to an array of files
+   * as this method converts single files to arrays.
+   *
+   * @param mixed $resource The resource path
+   */
+  public function load($resource)
+  {
+    if (!is_array($resource))
+    {
+      $resource = array($resource);
+    }
+
+    return parent::load($resource);
+  }
+
   protected function getAbsolutePath($file, $currentPath = null)
   {
     if (self::isAbsolutePath($file))

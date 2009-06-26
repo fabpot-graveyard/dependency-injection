@@ -21,11 +21,6 @@ class sfServiceContainerLoaderFileXml extends sfServiceContainerLoaderFile
 {
   public function doLoad($files)
   {
-    if (!is_array($files))
-    {
-      $files = array($files);
-    }
-
     return $this->parse($this->getFilesAsXml($files));
   }
 
@@ -168,7 +163,7 @@ class sfServiceContainerLoaderFileXml extends sfServiceContainerLoaderFile
     return $definition;
   }
 
-  protected function getFilesAsXml($files)
+  protected function getFilesAsXml(array $files)
   {
     $xmls = array();
     foreach ($files as $file)
