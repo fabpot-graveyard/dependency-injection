@@ -32,7 +32,35 @@ abstract class sfServiceContainerLoader implements sfServiceContainerLoaderInter
   }
 
   /**
+   * Sets the service container attached to this loader.
+   *
+   * @param sfServiceContainerBuilder $container A sfServiceContainerBuilder instance
+   */
+  public function setServiceContainer(sfServiceContainerBuilder $container)
+  {
+    $this->container = $container;
+  }
+
+  /**
    * Loads a resource.
+   *
+   * A resource can be anything that can be converted to an array of
+   * definitions and parameters by the doLoad() method.
+   *
+   * Service definitions overrides the current defined ones.
+   *
+   * But for parameters, they are overriden by the current ones. It allows
+   * the parameters passed to the container constructor to have precedence
+   * over the loaderd ones.
+   *
+   * $container = new sfServiceContainerBuilder(array('foo' => 'bar'));
+   * $loader = new sfServiceContainerLoaderXXX($container);
+   * $loader->load('resource_name');
+   * $container->register('foo', new stdClass());
+   *
+   * In the above example, even if the loaded resource defines a foo
+   * parameter, the value will still be 'bar' as defined in the builder
+   * constructor.
    *
    * @param mixed $resource The resource path
    */
@@ -57,6 +85,9 @@ abstract class sfServiceContainerLoader implements sfServiceContainerLoaderInter
 
   /**
    * Loads a resource.
+   *
+   * Concrete classes implements this method to convert
+   * the resource to an array of definitions and parameters.
    *
    * @param  mixed $resource The resource path
    *
