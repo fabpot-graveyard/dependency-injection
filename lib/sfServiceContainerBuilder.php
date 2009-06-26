@@ -219,6 +219,10 @@ class sfServiceContainerBuilder extends sfServiceContainer
       {
         $callable[0] = $this->getService((string) $callable[0]);
       }
+      elseif (is_array($callable))
+      {
+        $callable[0] = $this->resolveValue($callable[0]);
+      }
 
       if (!is_callable($callable))
       {

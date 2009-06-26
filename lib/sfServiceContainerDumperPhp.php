@@ -152,7 +152,7 @@ EOF;
         }
         else
         {
-          return sprintf("    %s::%s(\$instance);\n", $callable[0], $callable[1]);
+          return sprintf("    call_user_func(array(%s, '%s'), \$instance);\n", $this->dumpValue($callable[0]), $callable[1]);
         }
       }
       else
