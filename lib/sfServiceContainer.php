@@ -167,6 +167,31 @@ class sfServiceContainer implements sfServiceContainerInterface, ArrayAccess, It
   }
 
   /**
+   * Gets all services.
+   *
+   * Calling this method should be avoided as it creates all the services
+   * defined for this service container.
+   *
+   * It is mostly useful for testing purpose.
+   *
+   * @return array An array of services
+   */
+  public function getServices()
+  {
+    $services = array();
+    $r = new ReflectionClass($this);
+    foreach ($r->getMethods() as $method)
+    {
+      if (preg_match('/^get(.+)Service$/', $name = $method->getName(), $match))
+      {
+        $services[self::underscore($match[1])] = $this->$name();
+      }
+    }
+
+    return array_merge($services, $this->services);
+  }
+
+  /**
    * Returns true if the parameter name is defined (implements the ArrayAccess interface).
    *
    * @param  string  The parameter name
@@ -261,17 +286,7 @@ class sfServiceContainer implements sfServiceContainerInterface, ArrayAccess, It
    */
   public function rewind()
   {
-    $services = array();
-    $r = new ReflectionClass($this);
-    foreach ($r->getMethods() as $method)
-    {
-      if (preg_match('/^get(.+)Service$/', $name = $method->getName(), $match))
-      {
-        $services[self::underscore($match[1])] = $this->$name();
-      }
-    }
-
-    $this->allServices = array_merge($services, $this->services);
+    $this->allServices = $this->getServices();
 
     $this->count = count($this->allServices);
   }
