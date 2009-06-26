@@ -26,7 +26,7 @@ abstract class sfServiceContainerLoaderFile extends sfServiceContainerLoader
    * Constructor.
    *
    * @param sfServiceContainerBuilder $container A sfServiceContainerBuilder instance
-   * @param array                     $paths An array of paths where to look for resources
+   * @param string|array              $paths     A path or an array of paths where to look for resources
    */
   public function __construct(sfServiceContainerBuilder $container = null, $paths = array())
   {
