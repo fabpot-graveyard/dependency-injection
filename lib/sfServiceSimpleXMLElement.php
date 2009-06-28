@@ -21,35 +21,18 @@ class sfServiceSimpleXMLElement extends SimpleXMLElement
     return self::phpize($this[$name]);
   }
 
-  public function getArgumentsAsPhp($name = 'argument', $permanent = false)
+  public function getArgumentsAsPhp($name)
   {
     $arguments = array();
     foreach ($this->$name as $arg)
     {
-      $key = isset($arg['key']) ? (string) $arg['key'] : count($arguments);
+      $key = isset($arg['key']) ? (string) $arg['key'] : (!$arguments ? 0 : max(array_keys($arguments)) + 1);
 
-      switch ($arg['type'])
+      // parameter keys are case insensitive
+      if ('parameter' == $name)
       {
-        case 'collection':
-          $arguments[$key] = $arg->getArgumentsAsPhp($permanent ? $name : 'argument');
-          break;
-        case 'string':
-          $arguments[$key] = (string) $arg;
-          break;
-        default:
-          $arguments[$key] = self::phpize($arg);
+        $key = strtolower($key);
       }
-    }
-
-    return $arguments;
-  }
-
-  public function getArgumentsAsPhpForServices($name = 'argument', $permanent = false)
-  {
-    $arguments = array();
-    foreach ($this->$name as $arg)
-    {
-      $key = isset($arg['key']) ? (string) $arg['key'] : count($arguments);
 
       switch ($arg['type'])
       {
@@ -57,7 +40,7 @@ class sfServiceSimpleXMLElement extends SimpleXMLElement
           $arguments[$key] = new sfServiceReference((string) $arg['id']);
           break;
         case 'collection':
-          $arguments[$key] = $arg->getArgumentsAsPhpForServices($permanent ? $name : 'argument', $permanent);
+          $arguments[$key] = $arg->getArgumentsAsPhp($name);
           break;
         case 'string':
           $arguments[$key] = (string) $arg;
