@@ -221,7 +221,8 @@ class sfServiceContainerLoaderFileXml extends sfServiceContainerLoaderFile
     $count = 0;
 
     // find anonymous service definitions
-    $nodes = $xml->xpath('//argument[@type="service"][not(@id)]');
+    $xml->registerXPathNamespace('container', 'http://symfony-project.org/2.0/container');
+    $nodes = $xml->xpath('//container:argument[@type="service"][not(@id)]');
     foreach ($nodes as $node)
     {
       $node['id'] = sprintf('_%s_%d', md5($file), ++$count);
