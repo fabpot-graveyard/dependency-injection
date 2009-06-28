@@ -45,8 +45,8 @@ abstract class sfServiceContainerLoaderFile extends sfServiceContainerLoader
    *
    * A resource is a file or an array of files.
    *
-   * The concrete classes always hava access to an array of files
-   * as this method converts single files to arrays.
+   * The concrete classes always have access to an array of files
+   * as this method converts single file argument to an array.
    *
    * @param mixed $resource The resource path
    */

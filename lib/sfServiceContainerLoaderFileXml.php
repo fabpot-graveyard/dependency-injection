@@ -19,12 +19,38 @@
  */
 class sfServiceContainerLoaderFileXml extends sfServiceContainerLoaderFile
 {
+  /**
+   * Loads an array of XML files.
+   *
+   * If multiple files are loaded, the services and parameters are merged.
+   *
+   * Remember that services and parameters are simple key/pair stores.
+   *
+   * When overriding a value, the old one is totally replaced, even if it is
+   * a "complex" value (an array for instance):
+   *
+   *   file1.xml
+   *   <parameter key="complex" type="collection">
+   *     <parameter>true</parameter>
+   *     <parameter>false</parameter>
+   *   </parameter>
+   *
+   *   file2.xml
+   *   <parameter key="complex">foo</parameter>
+   *
+   * If you load file1.xml and file2.xml in this order, the value of complex
+   * will be "foo".
+   *
+   * @param  array $files An array of XML files
+   *
+   * @return array An array of definitions and parameters
+   */
   public function doLoad($files)
   {
     return $this->parse($this->getFilesAsXml($files));
   }
 
-  protected function parse($xmls)
+  protected function parse(array $xmls)
   {
     $parameters = array();
     $definitions = array();
@@ -52,13 +78,12 @@ class sfServiceContainerLoaderFileXml extends sfServiceContainerLoaderFile
 
   protected function parseParameters($xml, $file)
   {
-    $parameters = array();
-    foreach ($xml->parameters as $parametersXml)
+    if (!$xml->parameters)
     {
-      $parameters = array_merge($parameters, $parametersXml->getArgumentsAsPhpForServices('parameter', true));
+      return array();
     }
 
-    return $parameters;
+    return $xml->parameters->getArgumentsAsPhp('parameter');
   }
 
   protected function parseImports($xml, $file)
@@ -95,7 +120,7 @@ class sfServiceContainerLoaderFileXml extends sfServiceContainerLoaderFile
 
     $importedFile = $this->getAbsolutePath((string) $import['resource'], dirname($file));
 
-    return call_user_func(array($loader, 'doLoad'), $importedFile);
+    return call_user_func(array($loader, 'doLoad'), array($importedFile));
   }
 
   protected function parseDefinitions($xml, $file)
@@ -132,7 +157,7 @@ class sfServiceContainerLoaderFileXml extends sfServiceContainerLoaderFile
       $definition->setFile((string) $service->file);
     }
 
-    $definition->setArguments($service->getArgumentsAsPhpForServices('argument'));
+    $definition->setArguments($service->getArgumentsAsPhp('argument'));
 
     if (isset($service->configurator))
     {
@@ -157,7 +182,7 @@ class sfServiceContainerLoaderFileXml extends sfServiceContainerLoaderFile
 
     foreach ($service->call as $call)
     {
-      $definition->addMethodCall((string) $call['method'], $call->getArgumentsAsPhpForServices());
+      $definition->addMethodCall((string) $call['method'], $call->getArgumentsAsPhp('argument'));
     }
 
     return $definition;
@@ -168,23 +193,23 @@ class sfServiceContainerLoaderFileXml extends sfServiceContainerLoaderFile
     $xmls = array();
     foreach ($files as $file)
     {
-      $file = $this->getAbsolutePath($file);
+      $path = $this->getAbsolutePath($file);
 
-      if (!file_exists($file))
+      if (!file_exists($path))
       {
         throw new InvalidArgumentException(sprintf('The service file "%s" does not exist.', $file));
       }
 
       $dom = new DOMDocument();
       libxml_use_internal_errors(true);
-      if (!$dom->load($file))
+      if (!$dom->load($path))
       {
         throw new InvalidArgumentException(implode("\n", $this->getXmlErrors()));
       }
       libxml_use_internal_errors(false);
       $this->validate($dom);
 
-      $xmls[$file] = simplexml_import_dom($dom, 'sfServiceSimpleXMLElement');
+      $xmls[$path] = simplexml_import_dom($dom, 'sfServiceSimpleXMLElement');
     }
 
     return $xmls;
@@ -197,14 +222,11 @@ class sfServiceContainerLoaderFileXml extends sfServiceContainerLoaderFile
 
     // find anonymous service definitions
     $nodes = $xml->xpath('//argument[@type="service"][not(@id)]');
-    if (is_array($nodes))
+    foreach ($nodes as $node)
     {
-      foreach ($nodes as $node)
-      {
-        $node['id'] = sprintf('_%s_%d', md5($file), ++$count);
-        $definitions[(string) $node['id']] = array($node->service, $file);
-        $node->service['id'] = (string) $node['id'];
-      }
+      $node['id'] = sprintf('_%s_%d', md5($file), ++$count);
+      $definitions[(string) $node['id']] = array($node->service, $file);
+      $node->service['id'] = (string) $node['id'];
     }
 
     // resolve definitions

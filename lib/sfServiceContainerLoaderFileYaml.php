@@ -41,7 +41,10 @@ class sfServiceContainerLoaderFileYaml extends sfServiceContainerLoaderFile
       // parameters
       if (isset($content['parameters']))
       {
-        $parameters = array_merge($parameters, $content['parameters']);
+        foreach ($content['parameters'] as $key => $value)
+        {
+          $parameters[strtolower($key)] = $value;
+        }
       }
 
       // services

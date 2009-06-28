@@ -37,7 +37,10 @@ class sfServiceContainerLoaderFileIni extends sfServiceContainerLoaderFile
 
       if (isset($result['parameters']) && is_array($result['parameters']))
       {
-        $parameters = array_merge($parameters, $result['parameters']);
+        foreach ($result['parameters'] as $key => $value)
+        {
+          $parameters[strtolower($key)] = $value;
+        }
       }
     }
 
