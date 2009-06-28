@@ -14,6 +14,8 @@
  *
  * It gives access to object instances (services), and parameters.
  *
+ * Services and parameters are simple key/pair stores.
+ *
  * Parameters keys are case insensitive.
  *
  * @package    symfony
