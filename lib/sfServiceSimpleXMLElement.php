@@ -11,11 +11,6 @@
 
 class sfServiceSimpleXMLElement extends SimpleXMLElement
 {
-  public function getNodeValueAsPhp($name)
-  {
-    return self::phpize($this->$name);
-  }
-
   public function getAttributeAsPhp($name)
   {
     return self::phpize($this[$name]);
