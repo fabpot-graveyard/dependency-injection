@@ -160,32 +160,6 @@ EOF;
     return "</container>\n";
   }
 
-  protected function dumpValue($value)
-  {
-    if (is_array($value))
-    {
-      $code = array();
-      foreach ($value as $k => $v)
-      {
-        $code[$k] = $this->dumpValue($v);
-      }
-
-      return $code;
-    }
-    elseif (is_object($value) && $value instanceof sfServiceReference)
-    {
-      return sprintf("<service id=\"%s\" />", (string) $value);
-    }
-    elseif (is_object($value) || is_resource($value))
-    {
-      throw new RuntimeException('Unable to dump a service container if a parameter is an object or a resource.');
-    }
-    else
-    {
-      return $value;
-    }
-  }
-
   protected function escape($arguments)
   {
     $args = array();
