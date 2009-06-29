@@ -126,17 +126,22 @@ class sfServiceContainerDumperGraphviz extends sfServiceContainerDumper
   protected function findNodes()
   {
     $nodes = array();
-    foreach ($this->container as $id => $service)
+
+    $container = clone $this->container;
+
+    foreach ($container->getServiceDefinitions() as $id => $definition)
     {
-      if (!$this->container->hasServiceDefinition($id))
+      $nodes[$id] = array('class' => $this->getValue($definition->getClass()), 'attributes' => array_merge($this->options['node.definition'], array('style' => $definition->isShared() ? 'filled' : 'dotted')));
+
+      $container->setServiceDefinition($id, new sfServiceDefinition('stdClass'));
+    }
+
+    foreach ($container as $id => $service)
+    {
+      if (!$container->hasServiceDefinition($id))
       {
         $nodes[$id] = array('class' => get_class($service), 'attributes' => $this->options['node.instance']);
       }
-    }
-
-    foreach ($this->container->getServiceDefinitions() as $id => $definition)
-    {
-      $nodes[$id] = array('class' => $this->getValue($definition->getClass()), 'attributes' => array_merge($this->options['node.definition'], array('style' => $definition->isShared() ? 'filled' : 'dotted')));
     }
 
     return $nodes;
