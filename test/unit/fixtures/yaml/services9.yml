@@ -1,0 +1,25 @@
+parameters:
+  baz_class: BazClass
+  foo: bar
+
+services:
+  foo:
+    class: FooClass
+    file: %path%/foo.php
+    constructor: getInstance
+    arguments: [foo, @foo.baz, { %foo%: 'foo is %foo%' }, true, @service_container]
+    calls:
+      - [setBar, [bar]]
+      - [initialize, {  }]
+      
+    shared: false
+    configurator: sc_configure
+  bar:
+    class: FooClass
+    arguments: [foo, @foo.baz]
+    configurator: [@foo.baz, configure]
+  foo.baz:
+    class: %baz_class%
+    configurator: [%baz_class%, configureStatic1]
+  foo_bar:
+    class: FooClass
