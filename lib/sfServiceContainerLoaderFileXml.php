@@ -29,6 +29,7 @@ class sfServiceContainerLoaderFileXml extends sfServiceContainerLoaderFile
    * When overriding a value, the old one is totally replaced, even if it is
    * a "complex" value (an array for instance):
    *
+   * <pre>
    *   file1.xml
    *   <parameter key="complex" type="collection">
    *     <parameter>true</parameter>
@@ -37,6 +38,7 @@ class sfServiceContainerLoaderFileXml extends sfServiceContainerLoaderFile
    *
    *   file2.xml
    *   <parameter key="complex">foo</parameter>
+   * </pre>
    *
    * If you load file1.xml and file2.xml in this order, the value of complex
    * will be "foo".

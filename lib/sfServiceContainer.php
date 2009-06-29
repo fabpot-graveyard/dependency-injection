@@ -22,16 +22,20 @@
  * Underscores are used to separate words, and dots to group services
  * under namespaces:
  *
- *   request
- *   mysql_session_storage
- *   symfony.mysql_session_storage
+ * <ul>
+ *   <li>request</li>
+ *   <li>mysql_session_storage</li>
+ *   <li>symfony.mysql_session_storage</li>
+ * </ul>
  *
  * A service can also be defined by creating a method named
  * getXXXService(), where XXX is the camelized version of the id:
  *
- *   request -> getRequestService()
- *   mysql_session_storage -> getMysqlSessionStorageService()
- *   symfony.mysql_session_storage -> getSymfony_MysqlSessionStorageService()
+ * <ul>
+ *   <li>request -> getRequestService()</li>
+ *   <li>mysql_session_storage -> getMysqlSessionStorageService()</li>
+ *   <li>symfony.mysql_session_storage -> getSymfony_MysqlSessionStorageService()</li>
+ * </ul>
  *
  * @package    symfony
  * @subpackage dependency_injection
