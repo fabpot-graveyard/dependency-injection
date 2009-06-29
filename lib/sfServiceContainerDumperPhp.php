@@ -306,11 +306,6 @@ EOF;
       return '$this';
     }
 
-    if ($this->container->hasServiceDefinition($id))
-    {
-      return sprintf('$this->get%sService()', sfServiceContainer::camelize($id));
-    }
-
     return sprintf('$this->getService(\'%s\')', $id);
   }
 }
