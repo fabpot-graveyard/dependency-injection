@@ -86,17 +86,10 @@ EOF;
   {
     $class = $this->dumpValue($definition->getClass());
 
-    if (is_string($definition->getArguments()))
+    $arguments = array();
+    foreach ($definition->getArguments() as $value)
     {
-      $arguments = array($this->dumpValue($definition->getArguments()));
-    }
-    else
-    {
-      $arguments = array();
-      foreach ($definition->getArguments() as $value)
-      {
-        $arguments[] = $this->dumpValue($value);
-      }
+      $arguments[] = $this->dumpValue($value);
     }
 
     if (!is_null($definition->getConstructor()))
@@ -121,17 +114,10 @@ EOF;
     $calls = '';
     foreach ($definition->getMethodCalls() as $call)
     {
-      if (is_string($call[1]))
+      $arguments = array();
+      foreach ($call[1] as $value)
       {
-        $arguments = array($this->dumpValue($call[1]));
-      }
-      else
-      {
-        $arguments = array();
-        foreach ($call[1] as $value)
-        {
-          $arguments[] = $this->dumpValue($value);
-        }
+        $arguments[] = $this->dumpValue($value);
       }
 
       $calls .= sprintf("    \$instance->%s(%s);\n", $call[0], implode(', ', $arguments));
@@ -142,23 +128,25 @@ EOF;
 
   protected function addServiceConfigurator($id, $definition)
   {
-    if ($callable = $definition->getConfigurator())
+    if (!$callable = $definition->getConfigurator())
     {
-      if (is_array($callable))
+      return '';
+    }
+
+    if (is_array($callable))
+    {
+      if (is_object($callable[0]) && $callable[0] instanceof sfServiceReference)
       {
-        if (is_object($callable[0]) && $callable[0] instanceof sfServiceReference)
-        {
-          return sprintf("    %s->%s(\$instance);\n", $this->getServiceCall((string) $callable[0]), $callable[1]);
-        }
-        else
-        {
-          return sprintf("    call_user_func(array(%s, '%s'), \$instance);\n", $this->dumpValue($callable[0]), $callable[1]);
-        }
+        return sprintf("    %s->%s(\$instance);\n", $this->getServiceCall((string) $callable[0]), $callable[1]);
       }
       else
       {
-        return sprintf("    %s(\$instance);\n", $callable);
+        return sprintf("    call_user_func(array(%s, '%s'), \$instance);\n", $this->dumpValue($callable[0]), $callable[1]);
       }
+    }
+    else
+    {
+      return sprintf("    %s(\$instance);\n", $callable);
     }
   }
 
@@ -270,7 +258,7 @@ EOF;
       }
       else
       {
-        $code = preg_replace_callback('/(%{1,2})([^%]+)\1/', array($this, 'replaceParameter'), var_export($value, true));
+        $code = str_replace('%%', '%', preg_replace_callback('/(?<!%)(%)([^%]+)\1/', array($this, 'replaceParameter'), var_export($value, true)));
 
         // optimize string
         $code = preg_replace(array("/^''\./", "/\.''$/", "/\.''\./"), array('', '', '.'), $code);
@@ -290,12 +278,6 @@ EOF;
 
   public function replaceParameter($match)
   {
-    if ('%%' == $match[1])
-    {
-      // % escaping
-      return '%'.$match[2].'%';
-    }
-
     return sprintf("'.\$this->getParameter('%s').'", strtolower($match[2]));
   }
 
