@@ -12,7 +12,7 @@
 /**
  * sfServiceContainerLoaderFileXml loads YAML files service definitions.
  *
- * The YAML format does not support anonymous services yet (cf. the XML loader).
+ * The YAML format does not support anonymous services (cf. the XML loader).
  *
  * @package    symfony
  * @subpackage service
@@ -78,7 +78,7 @@ class sfServiceContainerLoaderFileYaml extends sfServiceContainerLoaderFile
   {
     if (isset($import['class']) && $import['class'] != get_class($this))
     {
-      $class = (string) $import['class'];
+      $class = $import['class'];
       $loader = new $class($this->container, $this->paths);
     }
     else
@@ -86,9 +86,9 @@ class sfServiceContainerLoaderFileYaml extends sfServiceContainerLoaderFile
       $loader = $this;
     }
 
-    $importedFile = $this->getAbsolutePath((string) $import['resource'], dirname($file));
+    $importedFile = $this->getAbsolutePath($import['resource'], dirname($file));
 
-    return call_user_func(array($loader, 'doLoad'), $importedFile);
+    return call_user_func(array($loader, 'doLoad'), array($importedFile));
   }
 
   protected function parseDefinitions($content, $file)
@@ -109,7 +109,7 @@ class sfServiceContainerLoaderFileYaml extends sfServiceContainerLoaderFile
 
   protected function parseDefinition($service, $file)
   {
-    $definition = new sfServiceDefinition((string) $service['class']);
+    $definition = new sfServiceDefinition($service['class']);
 
     if (isset($service['shared']))
     {
@@ -154,7 +154,7 @@ class sfServiceContainerLoaderFileYaml extends sfServiceContainerLoaderFile
     return $definition;
   }
 
-  protected function getFilesAsArray($files)
+  protected function getFilesAsArray(array $files)
   {
     $yamls = array();
     foreach ($files as $file)
