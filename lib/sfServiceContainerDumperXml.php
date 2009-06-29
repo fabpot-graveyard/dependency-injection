@@ -197,7 +197,7 @@ EOF;
       }
       elseif (is_string($v))
       {
-        $args[$k] = preg_replace('/%(.+?)%/', '%%$1%%', $v);
+        $args[$k] = str_replace('%', '%%', $v);
       }
       else
       {
