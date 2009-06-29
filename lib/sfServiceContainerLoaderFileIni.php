@@ -30,7 +30,8 @@ class sfServiceContainerLoaderFileIni extends sfServiceContainerLoaderFile
         throw new InvalidArgumentException(sprintf('The %s file does not exist.', $file));
       }
 
-      if (false === $result = parse_ini_file($path, true))
+      $result = parse_ini_file($path, true);
+      if (false === $result || array() === $result)
       {
         throw new InvalidArgumentException(sprintf('The %s file is not valid.', $file));
       }
