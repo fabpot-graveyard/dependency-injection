@@ -25,10 +25,7 @@ class sfServiceContainerAutoloader
   static public function register()
   {
     ini_set('unserialize_callback_func', 'spl_autoload_call');
-    if (!spl_autoload_register(array(new self, 'autoload')))
-    {
-      throw new RuntimeException(sprintf('Unable to register %s::autoload as an autoloading method.', __CLASS__));
-    }
+    spl_autoload_register(array(new self, 'autoload'));
   }
 
   /**
