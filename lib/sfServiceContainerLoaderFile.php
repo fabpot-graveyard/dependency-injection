@@ -13,7 +13,7 @@
  * sfServiceContainerLoader is the abstract class used by all built-in loaders that are file based.
  *
  * @package    symfony
- * @subpackage service
+ * @subpackage dependency_injection
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
  * @version    SVN: $Id$
  */

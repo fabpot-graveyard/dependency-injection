@@ -13,7 +13,7 @@
  * sfServiceContainerDumper is the abstract class for all built-in dumpers.
  *
  * @package    symfony
- * @subpackage service
+ * @subpackage dependency_injection
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
  * @version    SVN: $Id$
  */

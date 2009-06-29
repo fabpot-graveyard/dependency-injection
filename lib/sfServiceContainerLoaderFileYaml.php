@@ -15,7 +15,7 @@
  * The YAML format does not support anonymous services (cf. the XML loader).
  *
  * @package    symfony
- * @subpackage service
+ * @subpackage dependency_injection
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
  * @version    SVN: $Id: sfServiceContainerLoaderFileYaml.php 269 2009-03-26 20:39:16Z fabien $
  */

@@ -13,7 +13,7 @@
  * sfServiceContainerDumperGraphviz dumps a service container as a graphviz file.
  *
  * @package    symfony
- * @subpackage service
+ * @subpackage dependency_injection
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
  * @version    SVN: $Id$
  */

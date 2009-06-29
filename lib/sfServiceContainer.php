@@ -34,7 +34,7 @@
  *   symfony.mysql_session_storage -> getSymfony_MysqlSessionStorageService()
  *
  * @package    symfony
- * @subpackage service
+ * @subpackage dependency_injection
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
  * @version    SVN: $Id$
  */

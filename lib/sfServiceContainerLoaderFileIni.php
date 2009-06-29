@@ -13,7 +13,7 @@
  * sfServiceContainerLoaderFileIni loads parameters from INI files.
  *
  * @package    symfony
- * @subpackage service
+ * @subpackage dependency_injection
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
  * @version    SVN: $Id$
  */

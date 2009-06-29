@@ -13,7 +13,7 @@
  * sfServiceContainerLoaderFileXml loads XML files service definitions.
  *
  * @package    symfony
- * @subpackage service
+ * @subpackage dependency_injection
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
  * @version    SVN: $Id: sfServiceContainerLoaderFileXml.php 267 2009-03-26 19:56:18Z fabien $
  */
