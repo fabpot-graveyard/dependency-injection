@@ -192,6 +192,8 @@ EOF;
         return 'true';
       case false === $value:
         return 'false';
+      case is_object($value) || is_resource($value):
+        throw new RuntimeException('Unable to dump a service container if a parameter is an object or a resource.');
       default:
         return $value;
     }

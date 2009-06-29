@@ -31,14 +31,6 @@ class sfServiceContainerDumperYaml extends sfServiceContainerDumper
     return $this->addParameters()."\n".$this->addServices();
   }
 
-  protected function addServiceShared($id, $definition)
-  {
-    if (!$definition->isShared())
-    {
-      return "    shared: false\n";
-    }
-  }
-
   protected function addService($id, $definition)
   {
     $code = "  $id:\n";
@@ -157,7 +149,7 @@ class sfServiceContainerDumperYaml extends sfServiceContainerDumper
       }
       elseif (is_string($v))
       {
-        $args[$k] = preg_replace('/%(.+?)%/', '%%$1%%', $v);
+        $args[$k] = str_replace('%', '%%', $v);
       }
       else
       {
