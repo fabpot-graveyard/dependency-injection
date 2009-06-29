@@ -18,6 +18,21 @@
  *
  * Parameters keys are case insensitive.
  *
+ * A service id can contain lowercased letters, digits, underscores, and dots.
+ * Underscores are used to separate words, and dots to group services
+ * under namespaces:
+ *
+ *   request
+ *   mysql_session_storage
+ *   symfony.mysql_session_storage
+ *
+ * A service can also be defined by creating a method named
+ * getXXXService(), where XXX is the camelized version of the id:
+ *
+ *   request -> getRequestService()
+ *   mysql_session_storage -> getMysqlSessionStorageService()
+ *   symfony.mysql_session_storage -> getSymfony_MysqlSessionStorageService()
+ *
  * @package    symfony
  * @subpackage service
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
@@ -335,11 +350,11 @@ class sfServiceContainer implements sfServiceContainerInterface, ArrayAccess, It
 
   static public function camelize($id)
   {
-    return preg_replace(array('#\.#', '#/(.?)#e', '/(^|_|-)+(.)/e'), array('_', "'::'.strtoupper('\\1')", "strtoupper('\\2')"), $id);
+    return preg_replace(array('/(^|_|-)+(.)/e', '/\.(.)/e'), array("strtoupper('\\2')", "'_'.strtoupper('\\1')"), $id);
   }
 
   static public function underscore($id)
   {
-    return strtolower(preg_replace(array('/([A-Z]+)([A-Z][a-z])/', '/([a-z\d])([A-Z])/'), array('\\1_\\2', '\\1_\\2'), $id));
+    return strtolower(preg_replace(array('/([A-Z]+)([A-Z][a-z])/', '/([a-z\d])([A-Z])/', '/_/'), array('\\1_\\2', '\\1_\\2', '.'), $id));
   }
 }
