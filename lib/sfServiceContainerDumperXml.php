@@ -133,6 +133,11 @@ class sfServiceContainerDumperXml extends sfServiceContainerDumper
       }
       else
       {
+        if (in_array($value, array('null', 'true', 'false'), true))
+        {
+          $attributes = ' type="string"';
+        }
+
         $xml .= sprintf("%s<%s%s%s>%s</%s>\n", $white, $type, $key, $attributes, self::phpToXml($value), $type);
       }
     }
