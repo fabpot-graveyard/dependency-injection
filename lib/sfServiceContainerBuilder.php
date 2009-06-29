@@ -271,7 +271,7 @@ class sfServiceContainerBuilder extends sfServiceContainer
       }
       else
       {
-        $value = preg_replace_callback('/(%{1,2})([^%]+)\1/', array($this, 'replaceParameter'), $value);
+        $value = str_replace('%%', '%', preg_replace_callback('/(?<!%)(%)([^%]+)\1/', array($this, 'replaceParameter'), $value));
       }
     }
 
@@ -301,12 +301,6 @@ class sfServiceContainerBuilder extends sfServiceContainer
 
   protected function replaceParameter($match)
   {
-    if ('%%' == $match[1])
-    {
-      // % escaping
-      return '%'.$match[2].'%';
-    }
-
     if (!$this->hasParameter($name = strtolower($match[2])))
     {
       throw new RuntimeException(sprintf('The parameter "%s" must be defined.', $name));
