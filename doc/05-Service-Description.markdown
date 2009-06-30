@@ -13,7 +13,7 @@ of them: `sfServiceContainerLoaderFileXml` to load XML files, and
 
 But before diving into the XML and YAML notations, let's first have a look at
 another part of the Symfony Dependency Injection component: the **"dumper
-objects"**. A service dumper takes a container object and convert it to
+objects"**. A service dumper takes a container object and converts it to
 another format. And of course, the component comes bundled with dumpers for
 the XML and YAML formats.
 
@@ -91,7 +91,7 @@ converts them to another representation. If everything went fine, the
 >The XML format supports anonymous services. An anonymous service is a
 >service that does not need a name and is defined directly in its use
 >context.  It can be very convenient when you need a service that won't
->be used outside of another one scope:
+>be used outside of a certain scope:
 >
 >     [xml]
 >     <service id="mailer" class="%mailer.class%">
@@ -142,7 +142,7 @@ instead, you will have a YAML representation of your services:
 >(`http://svn.symfony-project.com/components/yaml/trunk/`) as it is
 >required for the service container loader and dumper.
 
-The previous container is represented like follows in YAML:
+The previous container is represented as follows in YAML:
 
     [yml]
     parameters:
@@ -172,7 +172,7 @@ The previous container is represented like follows in YAML:
 >
 >  * The XML format is faster than the YAML one;
 >
->  * The XML format as no external dependencies (the YAML format relies
+>  * The XML format has no external dependencies (the YAML format relies
 >  on the sfYAML component).
 
 You can of course mix and match the loaders and the dumpers to convert any
@@ -191,15 +191,15 @@ format to any other one:
 >**TIP**
 >To keep this chapter short, we won't list all possibilities of the
 >YAML or XML format. But you can easily learn them by converting an
->existing container and look at the output. You can also have a look at
->the appendices, where the formats are described in great details.
+>existing container and looking at the output. You can also have a look at
+>the appendices, where the formats are described in great detail.
 
 Using YAML or XML files for configuring your services allows you to create
-your services with a GUI (yet to be done...). But it also opens a lot more
+your services with a GUI (yet to be done...). But it also opens up a lot more
 interesting possibilities.
 
-One of the most important one is the ability to import other "resources". A
-resource can be any other configuration file:
+One of the most important ones is the ability to import other 
+"resources". A resource can be any other configuration file:
 
     [xml]
     <container xmlns="http://symfony-project.org/2.0/container">
@@ -207,10 +207,10 @@ resource can be any other configuration file:
         <import resource="default.xml" />
       </imports>
       <parameters>
-        <!-- These parameters override the one defined in default.xml -->
+        <!-- These parameters override the ones defined in default.xml -->
       </parameters>
       <services>
-        <!-- These service definitions override the one defined in default.xml -->
+        <!-- These service definitions override the ones defined in default.xml -->
       </services>
     </container>
 
@@ -243,8 +243,8 @@ The `import` facility gives you a flexible way to organize your service
 definition files. It is also a great way to share and reuse definition files.
 Let's talk about the web session example we introduced in the first chapter.
 When you use web sessions in a test environment, the session storage object
-probably need to be mocked; on the contrary, and if you have several
-load-balanced web servers, the production environment need to store its
+probably needs to be mocked; on the contrary, if you have several
+load-balanced web servers, the production environment needs to store its
 sessions in a database like MySQL. One way to have a different configuration
 based on the environment is to create several different configuration files
 and import them as needed:
@@ -294,10 +294,10 @@ I can hear people crying about using XML to define the configuration, as XML
 is probably not the most readable configuration format on earth. Coming from a
 Symfony background, you could have written all the files in the YAML format.
 But you can also decouple the service definitions from their configuration. As
-you can import files form other ones, you can define services in a
+you can import files from other ones, you can define services in a
 `services.xml` file, and store the related configuration in a `parameters.xml`
 one. You can also define parameters in a YAML file (`parameters.yml`).
-Eventually, there is a last built-in INI loader that is able to read
+Finally, there is a built-in INI loader that is able to read
 parameters from a standard INI file:
 
     [xml]
@@ -316,8 +316,8 @@ parameters from a standard INI file:
 >It is not possible to define services in an INI file; only parameters
 >can be defined and parsed.
 
-These examples barely scratches the surface of the container loaders and
+These examples barely scratch the surface of the container loaders and
 dumpers features, but hopefully this chapter has been a good overview of the
 power of the XML and YAML formats over the PHP one. And for those who are
-sceptic about the performance of a container that needs to load several files
+sceptical about the performance of a container that needs to load several files
 to be configured, we think you will be blown away by the next chapter.

@@ -31,7 +31,7 @@ interface.
 >       public function hasService($name);
 >     }
 
-The description of the services are done by registering service definitions.
+The descriptions of the services are done by registering service definitions.
 Each service definition describes a service: from the class to use to the
 arguments to pass to the constructor, and a bunch of other configuration
 properties (see the `sfServiceDefinition` sidebar below).
@@ -70,12 +70,12 @@ instance.
 >**TIP**
 >A service definition is internally represented by an object of
 >class `sfServiceDefinition`. It is also possible to create one by
->hand and registering it directly by using the service container
+>hand and register it directly by using the service container
 >`setServiceDefinition()` method.
 
 The definition object implements a fluid interface and provides
 methods that configure the service. In the above example, we have used the
-following ones:
+following:
 
   * `addArgument()`: Adds an argument to pass to the service constructor.
 
@@ -95,12 +95,12 @@ actually want to work with them. It means you can register the services in any
 order without taking care of the dependencies between them. It also means you
 can override an existing service definition by re-registering a service with
 the same name. That's yet another simple way to override a service for testing
-purpose.
+purposes.
 
 >**SIDEBAR**
 >The `sfServiceDefinition` Class
 >
->A service has several properties that changes the way it is created and
+>A service has several properties that change the way it is created and
 >configured:
 >
 > * `setConstructor()`: Sets the static method to use when the service
@@ -173,11 +173,11 @@ here is another example using the `sfUser` class from Symfony:
     $user = $sc->user;
 
 >**NOTE**
->In the Symfony example, even if the storage object takes an
+>In the Symfony example, even though the storage object takes an
 >array of options as an argument, we passed a string placeholder
->(`addArgument('%storage.options%')`). The container is smarter enough
->to actually pass an array, the value of the placeholder.
+>(`addArgument('%storage.options%')`). The container is smart enough
+>to actually pass an array, which is the value of the placeholder.
 
 Using PHP code to describe the services is quite simple and powerful. It gives
 you a tool to create your container without duplicating too much code and to
-abstract objects instantiation and configuration.
+abstract object instantiation and configuration.
