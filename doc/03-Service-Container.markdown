@@ -3,7 +3,7 @@ The Symfony Service Container
 
 Until now, we have talked about general concepts. The first two introductory
 chapters were important to better understand the implementation we will talk
-about in this chapter and in the following ones. It is now time to drive into
+about in this chapter and in the following ones. It is now time to dive into
 the Symfony Service Container component implementation.
 
 The Symfony Dependency Injection Container is managed by a class named

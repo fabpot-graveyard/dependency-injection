@@ -22,7 +22,7 @@ object you need:
 
 In the upcoming chapters, we will specifically talk about the Symfony
 Dependency Injection Container component. As we want to make it clear that the
-implementation is in no way bound to Symfony or whatever, this book takes Zend
+implementation is in no way bound to Symfony, this book also uses Zend
 Framework examples.
 
 The Zend Framework `Mail` library, which eases email management, uses the PHP
@@ -91,7 +91,7 @@ mail transport dependency will be injected automatically by the container,
 thanks to the `getMailTransport()` call. All the power of the container lies
 in this simple call!
 
-But, a stute readers might have noticed a problem here. The container itself
+But, astute readers might have noticed a problem here. The container itself
 has everything hardcoded! So, we need to go one step further and add
 parameters to the mix to make the container really useful:
 
