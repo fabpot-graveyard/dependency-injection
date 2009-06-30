@@ -11,8 +11,8 @@ But when you need to manage a lot of different objects with a lot of
 dependencies, a Dependency Injection Container can be really helpful (think of
 a framework for instance).
 
-If you remember the example of the first chapter, creating a `User` object
-required to first create a `SessionStorage` object. Not a big deal, but still,
+If you remember the example in the first chapter, creating a `User` object
+required us to first create a `SessionStorage` object. Not a big deal, but still,
 you have to know about all the dependencies you need before creating the
 object you need:
 
@@ -25,7 +25,7 @@ Dependency Injection Container component. As we want to make it clear that the
 implementation is in no way bound to Symfony or whatever, this book takes Zend
 Framework examples.
 
-The Zend Framework `Mail` library, which ease emails management, uses the PHP
+The Zend Framework `Mail` library, which eases email management, uses the PHP
 `mail()` function by default to send emails, which is not really flexible.
 Thankfully, it is quite easy to change this behavior by providing a transport
 object. The following snippet of code shows how to create a `Zend_Mail` object
@@ -161,7 +161,7 @@ also be passed as a parameter:
     ));
     $mailer = $container->getMailer();
 
-Last, but not the least, each time you want to get a mailer, you don't need a
+Last, but not least, each time you want to get a mailer, you don't need a
 new instance of it. So, the container can be changed to always return the same
 object:
 

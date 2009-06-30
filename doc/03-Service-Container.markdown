@@ -89,7 +89,7 @@ class, we can simplify the code a bit:
     }
 
 That's not much, but it will give us a more powerful and clean interface. Here
-is the main changes we made:
+are the main changes we made:
 
  * The method names have been suffixed with `Service`. By convention, a
    service is to be defined by a method prefixed by `get` and suffixed by
@@ -191,5 +191,5 @@ the services.
 
 That's why, most of the time, you don't use the `sfServiceContainer` class
 directly. It was nonetheless important to take some time to describe it as it
-is the corner stone of the Symfony dependency injection container
+is the cornerstone of the Symfony dependency injection container
 implementation.

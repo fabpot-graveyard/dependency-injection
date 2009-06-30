@@ -12,11 +12,11 @@ developer.
 >If you are already familiar with Dependency Injection, you can safely
 >skip this chapter and start reading the next one.
 
-Dependency Injection is probably one of the most dead simple design pattern.
-And odds are you have probably already used Dependency Injection. But it is
-also one of the most difficult one to explain well. This is probably partly
+Dependency Injection is probably one of the most dead simple design patterns,
+and odds are you have already used Dependency Injection. However, it is
+also one of the most difficult to explain well. This is probably partly
 due to the nonsense examples used in most introductions to Dependency
-Injection. In this chapter, we have tried to come up with examples that fits
+Injection. In this chapter, we have tried to come up with examples that fit
 the PHP world better. As PHP is a language mainly used for web development,
 we are going to use simple Web examples.
 
@@ -209,7 +209,7 @@ describes Dependency Injection like this:
   through their constructors, methods, or directly into fields."
 
 >**TIP**
->As any other design pattern, Dependency Injection
+>As with any other design pattern, Dependency Injection
 >also has some anti-patterns.  The
 >[Pico Container website](http://www.picocontainer.org/)
 >describes some of them.
