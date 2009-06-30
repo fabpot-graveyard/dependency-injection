@@ -49,9 +49,9 @@ abstract class sfServiceContainerLoader implements sfServiceContainerLoaderInter
    *
    * Service definitions overrides the current defined ones.
    *
-   * But for parameters, they are overriden by the current ones. It allows
+   * But for parameters, they are overridden by the current ones. It allows
    * the parameters passed to the container constructor to have precedence
-   * over the loaderd ones.
+   * over the loaded ones.
    *
    * $container = new sfServiceContainerBuilder(array('foo' => 'bar'));
    * $loader = new sfServiceContainerLoaderXXX($container);
