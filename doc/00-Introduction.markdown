@@ -19,7 +19,7 @@ What is it?
 -----------
 
 Symfony Dependency Injection is a PHP library that provides a lightweight and
-robust Dependency Injection Container for classes that implements the
+robust Dependency Injection Container for classes that implement the
 Dependency Injection pattern.
 
 Dependency Injection is a best practice to follow if you want to easily reuse
@@ -28,7 +28,7 @@ your classes and provides an elegant way to facilitate unit testing.
 A Dependency Injection Container manages object instantiation and
 configuration for you.
 
-If you are interested in learning more about Dependency Injection, you read can the
+If you are interested in learning more about Dependency Injection, you can read the
 [Martin Fowler introduction](http://www.martinfowler.com/articles/injection.html)
 or the excellent
 [Jeff More presentation](http://www.procata.com/talks/phptek-may2007-dependency.pdf).
@@ -39,7 +39,7 @@ on the exact same example as the one used in this book.
 
 ### Fast
 
-One of the goal of Symfony Dependency Injection is to be as fast as possible.
+One of the goals of Symfony Dependency Injection is to be as fast as possible.
 With the possibility to dump any container to a plain PHP file, you can use
 the library without any overhead whatsoever, certified.
 
@@ -68,7 +68,7 @@ your objects and ease the debugging of your container.
 
 ### Used by popular Projects
 
-Symfony Dependency Injection is one of the fundamental library behind the
+Symfony Dependency Injection is one of the fundamental libraries behind the
 Symfony 2 framework. It is also used by many other big "enterprise-like"
 projects.
 
