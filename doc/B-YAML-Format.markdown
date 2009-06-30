@@ -6,8 +6,8 @@ services.
 
 ### Format
 
-The YAML files cannot be validated as the XML ones. So, you need to be careful
-when writing one.
+The YAML files cannot be validated like the XML ones. So, you need to be
+careful when writing them.
 
 The YAML file can define three main entries:
 
@@ -23,7 +23,7 @@ parameter value.
 
 ### Precedence Rules
 
-When loading an YAML resource, services definitions overrides the current
+When loading an YAML resource, service definitions override the current
 defined ones.
 
 But for parameters, they are overridden by the current ones. It allows the
@@ -147,7 +147,7 @@ Here is an example that uses most possibilities:
 Imports
 -------
 
-Before the YAML file is parsed, the component first read the import resources
+Before the YAML file is parsed, the component first reads the import resources
 defined under the `imports` entry:
 
     [yml]

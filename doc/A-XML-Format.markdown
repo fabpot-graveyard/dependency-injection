@@ -10,7 +10,7 @@ The XML files are always validated by an
 [XSD](http://github.com/fabpot/dependency-injection/blob/0d2d88248920eee0e6f382791ae6d075d1ef19d3/lib/services.xsd)
 file before being parsed by the component.
 
-The bare minimum and valid XML file read as follows:
+The bare minimum and valid XML file reads as follows:
 
     [xml]
     <?xml version="1.0" ?>
@@ -105,7 +105,7 @@ automatically:
 
   * The `null` string is converted to the PHP `null` value
 
-  * String the represented numeric values are converted to PHP numeric values
+  * String representing numeric values are converted to PHP numeric values
     (integer, octal notation, and hexadecimal notations are supported)
 
 You can force a special value to be interpreted as a string by using the
@@ -268,7 +268,7 @@ defined.
 Imports
 -------
 
-Before the XML file is parsed, the component first read the import resources
+Before the XML file is parsed, the component first reads the import resources
 defined under the `<imports>` tag:
 
     [xml]

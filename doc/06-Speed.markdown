@@ -7,13 +7,13 @@ talked about the implementation of a lightweight PHP container that will be
 one of the core components of Symfony 2.
 
 But with the introduction of the XML and YAML configuration files, you might
-have became a bit sceptic about the performance of the container itself. Even
+have become a bit sceptical about the performance of the container itself. Even
 if services are lazy loading, reading a bunch of XML or YAML files on each
 request and creating objects by using introspection is probably not very
-efficient in PHP. And because the container is almost always the corner stone
+efficient in PHP. And because the container is almost always the cornerstone
 of any application using it, its speed does matter a lot.
 
-On the one hand, using XML or YAML to describe services and their
+On one hand, using XML or YAML to describe services and their
 configuration is very powerful and flexible:
 
     [php]
@@ -80,13 +80,13 @@ gives you the full speed, as seen during the second chapter of this book:
 The above code does the bare minimum to provide flexibility thanks to the
 configuration variables, and still be very fast.
 
-How can you have the best of both world? That's quite simply. The Symfony
+How can you have the best of both worlds? That's quite simple. The Symfony
 Dependency Injection component provides yet another built-in dumper: a **PHP
 dumper**. This dumper can convert any service container to plain PHP code.
 That's right, it is able to generate the code you could have written by hand
 in the first place.
 
-Let's use again our `Zend_Mail` example and for brevity's sake, let's use the
+Let's again use our `Zend_Mail` example and for brevity's sake, let's use the
 XML definition file created in the previous chapter:
 
     [php]
@@ -156,10 +156,10 @@ that the code is very similar to the one we wrote by hand.
 
 >**NOTE**
 >The generated code does not use the shortcut notation to access
->parameters and services to be as fast as possible.
+>parameters and services in order to be as fast as possible.
 
 By using the `sfServiceContainerDumperPhp` dumper, you can have the best of
-both world: the flexibility of the XML or YAML format to describe and
+both worlds: the flexibility of the XML or YAML format to describe and
 configure your services, and the speed of an optimized and auto-generated PHP
 file.
 
@@ -245,7 +245,7 @@ and beautiful.
 >  defined via service definition instances
 >  * `node.missing`: The default options for missing services
 
-Here is the graph for an hypothetic CMS using the Symfony 2 new Templating
+Here is the graph for an hypothetical CMS using the new Symfony 2 Templating
 Framework:
 
 ![Symfony 2 Templating Framework](http://fabien.potencier.org/media/articles/di/template.png)
