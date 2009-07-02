@@ -105,7 +105,7 @@ automatically:
 
   * The `null` string is converted to the PHP `null` value
 
-  * String representing numeric values are converted to PHP numeric values
+  * Strings representing numeric values are converted to PHP numeric values
     (integer, octal notation, and hexadecimal notations are supported)
 
 You can force a special value to be interpreted as a string by using the

@@ -23,7 +23,7 @@ parameter value.
 
 ### Precedence Rules
 
-When loading an YAML resource, service definitions override the current
+When loading a YAML resource, service definitions override the current
 defined ones.
 
 But for parameters, they are overridden by the current ones. It allows the
