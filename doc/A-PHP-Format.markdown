@@ -138,29 +138,29 @@ configurator. A configurator is a callable that will be able to
 further configure the service. The callable is passed the service
 instance as an argument.
 
-    The configurator can be a function:
+The configurator can be a function:
 
-        [php]
-        $container
-          ->register('foo', 'FooClass')
-          ->setConfigurator('configure')
-        ;
+    [php]
+    $container
+      ->register('foo', 'FooClass')
+      ->setConfigurator('configure')
+    ;
 
-    or a method called on an existing service:
+or a method called on an existing service:
 
-        [php]
-        $container
-          ->register('foo', 'FooClass')
-          ->setConfigurator(array(new sfServiceReference('baz'), 'configure'))
-        ;
+    [php]
+    $container
+      ->register('foo', 'FooClass')
+      ->setConfigurator(array(new sfServiceReference('baz'), 'configure'))
+    ;
 
-    or a static method:
+or a static method:
 
-        [php]
-        $container
-          ->register('foo', 'FooClass')
-          ->setConfigurator(array('BazClass', 'configureStatic'))
-        ;
+    [php]
+    $container
+      ->register('foo', 'FooClass')
+      ->setConfigurator(array('BazClass', 'configureStatic'))
+    ;
 
 ### Method Calls
 
