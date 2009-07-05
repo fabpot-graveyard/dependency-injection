@@ -1,4 +1,4 @@
-Appendix A - The XML Format
+Appendix B - The XML Format
 ===========================
 
 This appendix describes the XML format used to describe parameters and

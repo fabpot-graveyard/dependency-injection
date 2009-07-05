@@ -1,4 +1,4 @@
-Appendix C - The INI Format
+Appendix D - The INI Format
 ===========================
 
 This appendix describes the INI format used to describe parameters.

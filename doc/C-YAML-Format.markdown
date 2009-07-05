@@ -1,4 +1,4 @@
-Appendix B - The YAML Format
+Appendix C - The YAML Format
 ============================
 
 This appendix describes the YAML format used to describe parameters and
