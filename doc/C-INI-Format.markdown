@@ -1,5 +1,5 @@
-Appendix B - The INI Format
-============================
+Appendix C - The INI Format
+===========================
 
 This appendix describes the INI format used to describe parameters.
 
