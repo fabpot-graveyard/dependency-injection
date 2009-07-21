@@ -21,7 +21,7 @@ class sfServiceContainerBuilder extends sfServiceContainer
 {
   protected
     $definitions = array(),
-    $loading = array();
+    $loading     = array();
 
   /**
    * Returns true if the given service is defined.
@@ -30,9 +30,9 @@ class sfServiceContainerBuilder extends sfServiceContainer
    *
    * @return Boolean true if the service is defined, false otherwise
    */
-  public function hasService($name)
+  public function hasService($id)
   {
-    return isset($this->definitions[$name]) || parent::hasService($name);
+    return isset($this->definitions[$id]) || parent::hasService($id);
   }
 
   /**
