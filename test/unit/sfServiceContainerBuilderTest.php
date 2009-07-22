@@ -89,14 +89,13 @@ catch (LogicException $e)
 $builder->register('foobar', 'stdClass')->setShared(true);
 $t->ok($builder->getService('bar') === $builder->getService('bar'), '->getService() always returns the same instance if the service is shared');
 
-// ->getServices()
-$t->diag('->getServices()');
+// ->getServiceIds()
+$t->diag('->getServiceIds()');
 $builder = new sfServiceContainerBuilder();
 $builder->register('foo', 'stdClass');
 $builder->bar = $bar = new stdClass();
 $builder->register('bar', 'stdClass');
-$services = $builder->getServices();
-$t->is(array_keys($services), array('foo', 'bar', 'service_container'), '->getServices() returns all services');
+$t->is($builder->getServiceIds(), array('foo', 'bar', 'service_container'), '->getServiceIds() returns all defined service ids');
 
 // ->createService() # file
 $t->diag('->createService() # file');

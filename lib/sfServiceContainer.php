@@ -45,7 +45,7 @@
 class sfServiceContainer implements sfServiceContainerInterface, ArrayAccess, Iterator
 {
   protected
-    $allServices = array(),
+    $serviceIds  = array(),
     $parameters  = array(),
     $services    = array(),
     $count       = 0;
@@ -188,28 +188,23 @@ class sfServiceContainer implements sfServiceContainerInterface, ArrayAccess, It
   }
 
   /**
-   * Gets all services.
+   * Gets all service ids.
    *
-   * Calling this method should be avoided as it creates all the services
-   * defined for this service container.
-   *
-   * It is mostly useful for testing purpose.
-   *
-   * @return array An array of services
+   * @return array An array of all defined service ids
    */
-  public function getServices()
+  public function getServiceIds()
   {
-    $services = array();
+    $ids = array();
     $r = new ReflectionClass($this);
     foreach ($r->getMethods() as $method)
     {
       if (preg_match('/^get(.+)Service$/', $name = $method->getName(), $match))
       {
-        $services[self::underscore($match[1])] = $this->$name();
+        $ids[] = self::underscore($match[1]);
       }
     }
 
-    return array_merge($services, $this->services);
+    return array_merge($ids, array_keys($this->services));
   }
 
   /**
@@ -307,9 +302,9 @@ class sfServiceContainer implements sfServiceContainerInterface, ArrayAccess, It
    */
   public function rewind()
   {
-    $this->allServices = $this->getServices();
+    $this->serviceIds = $this->getServiceIds();
 
-    $this->count = count($this->allServices);
+    $this->count = count($this->serviceIds);
   }
 
   /**
@@ -319,7 +314,7 @@ class sfServiceContainer implements sfServiceContainerInterface, ArrayAccess, It
    */
   public function key()
   {
-    return key($this->allServices);
+    return current($this->serviceIds);
   }
 
   /**
@@ -329,7 +324,7 @@ class sfServiceContainer implements sfServiceContainerInterface, ArrayAccess, It
    */
   public function current()
   {
-    return current($this->allServices);
+    return $this->getService(current($this->serviceIds));
   }
 
   /**
@@ -337,7 +332,7 @@ class sfServiceContainer implements sfServiceContainerInterface, ArrayAccess, It
    */
   public function next()
   {
-    next($this->allServices);
+    next($this->serviceIds);
 
     --$this->count;
   }

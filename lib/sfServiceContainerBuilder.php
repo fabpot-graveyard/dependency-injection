@@ -78,26 +78,13 @@ class sfServiceContainerBuilder extends sfServiceContainer
   }
 
   /**
-   * Gets all services.
+   * Gets all service ids.
    *
-   * Calling this method should be avoided as it creates all the services
-   * defined for this service container.
-   *
-   * It is mostly useful for testing purpose.
-   *
-   * @return array An array of services
+   * @return array An array of all defined service ids
    */
-  public function getServices()
+  public function getServiceIds()
   {
-    $allServices = parent::getServices();
-
-    $services = array();
-    foreach ($this->getServiceDefinitions() as $id => $definition)
-    {
-      $services[$id] = $this->getService($id);
-    }
-
-    return array_merge($services, $allServices);
+    return array_unique(array_merge(array_keys($this->getServiceDefinitions()), parent::getServiceIds()));
   }
 
   /**

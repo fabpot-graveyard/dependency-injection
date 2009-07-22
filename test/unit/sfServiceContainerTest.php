@@ -12,7 +12,7 @@ require_once dirname(__FILE__).'/../lib/lime/lime.php';
 require_once dirname(__FILE__).'/../../lib/sfServiceContainerAutoloader.php';
 sfServiceContainerAutoloader::register();
 
-$t = new lime_test(40);
+$t = new lime_test(41);
 
 // __construct()
 $t->diag('__construct()');
@@ -111,6 +111,13 @@ $t->ok($sc->hasService('foo'), '->hasService() returns true if the service is de
 $t->ok(isset($sc->foo), '->__isset() returns true if the service is defined');
 $t->ok(!$sc->hasService('bar'), '->hasService() returns false if the service is not defined');
 $t->ok(!isset($sc->bar), '->__isset() returns false if the service is not defined');
+
+// ->getServiceIds()
+$t->diag('->getServiceIds()');
+$sc = new sfServiceContainer();
+$sc->setService('foo', $obj = new stdClass());
+$sc->setService('bar', $obj = new stdClass());
+$t->is($sc->getServiceIds(), array('service_container', 'foo', 'bar'), '->getServiceIds() returns all defined service ids');
 
 class ProjectServiceContainer extends sfServiceContainer
 {
