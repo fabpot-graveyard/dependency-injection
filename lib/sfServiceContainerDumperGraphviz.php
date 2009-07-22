@@ -12,6 +12,10 @@
 /**
  * sfServiceContainerDumperGraphviz dumps a service container as a graphviz file.
  *
+ * You can convert the generated dot file with the dot utility (http://www.graphviz.org/):
+ *
+ *   dot -Tpng container.dot > foo.png
+ *
  * @package    symfony
  * @subpackage dependency_injection
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
