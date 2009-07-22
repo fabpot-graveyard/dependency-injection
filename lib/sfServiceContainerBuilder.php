@@ -104,16 +104,27 @@ class sfServiceContainerBuilder extends sfServiceContainer
   }
 
   /**
+   * Adds the service definitions.
+   *
+   * @param array $definitions An array of service definitions
+   */
+  public function addServiceDefinitions(array $definitions)
+  {
+    foreach ($definitions as $id => $definition)
+    {
+      $this->setServiceDefinition($id, $definition);
+    }
+  }
+
+  /**
    * Sets the service definitions.
    *
    * @param array $definitions An array of service definitions
    */
   public function setServiceDefinitions(array $definitions)
   {
-    foreach ($definitions as $id => $definition)
-    {
-      $this->setServiceDefinition($id, $definition);
-    }
+    $this->definitions = array();
+    $this->addServiceDefinitions($definitions);
   }
 
   /**

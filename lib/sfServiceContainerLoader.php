@@ -73,7 +73,7 @@ abstract class sfServiceContainerLoader implements sfServiceContainerLoaderInter
 
     list($definitions, $parameters) = $this->doLoad($resource);
 
-    $this->container->setServiceDefinitions($definitions);
+    $this->container->addServiceDefinitions($definitions);
 
     $currentParameters = $this->container->getParameters();
     foreach ($parameters as $key => $value)

@@ -12,10 +12,10 @@ require_once dirname(__FILE__).'/../lib/lime/lime.php';
 require_once dirname(__FILE__).'/../../lib/sfServiceContainerAutoloader.php';
 sfServiceContainerAutoloader::register();
 
-$t = new lime_test(40);
+$t = new lime_test(41);
 
-// ->setServiceDefinitions() ->getServiceDefinitions() ->setServiceDefinition() ->getServiceDefinition() ->hasServiceDefinition()
-$t->diag('->setServiceDefinitions() ->getServiceDefinitions() ->setServiceDefinition() ->getServiceDefinition() ->hasServiceDefinition()');
+// ->setServiceDefinitions() ->addServiceDefinitions() ->getServiceDefinitions() ->setServiceDefinition() ->getServiceDefinition() ->hasServiceDefinition()
+$t->diag('->setServiceDefinitions() ->addServiceDefinitions() ->getServiceDefinitions() ->setServiceDefinition() ->getServiceDefinition() ->hasServiceDefinition()');
 $builder = new sfServiceContainerBuilder();
 $definitions = array(
   'foo' => new sfServiceDefinition('FooClass'),
@@ -29,6 +29,9 @@ $t->ok(!$builder->hasServiceDefinition('foobar'), '->hasServiceDefinition() retu
 $builder->setServiceDefinition('foobar', $foo = new sfServiceDefinition('FooBarClass'));
 $t->is($builder->getServiceDefinition('foobar'), $foo, '->getServiceDefinition() returns a service definition if defined');
 $t->ok($builder->setServiceDefinition('foobar', $foo = new sfServiceDefinition('FooBarClass')) === $foo, '->setServiceDefinition() implements a fuild interface by returning the service reference');
+
+$builder->addServiceDefinitions($defs = array('foobar' => new sfServiceDefinition('FooBarClass')));
+$t->is($builder->getServiceDefinitions(), array_merge($definitions, $defs), '->addServiceDefinitions() adds the service definitions');
 
 try
 {
