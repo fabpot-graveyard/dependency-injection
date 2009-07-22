@@ -23,3 +23,4 @@ services:
     configurator: [%baz_class%, configureStatic1]
   foo_bar:
     class: FooClass
+  alias_for_foo: @foo

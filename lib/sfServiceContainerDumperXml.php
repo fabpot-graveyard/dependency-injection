@@ -96,6 +96,11 @@ class sfServiceContainerDumperXml extends sfServiceContainerDumper
     return $code;
   }
 
+  protected function addServiceAlias($alias, $id)
+  {
+    return sprintf("    <service id=\"%s\" alias=\"%s\" />\n", $alias, $id);
+  }
+
   protected function addServices()
   {
     if (!$this->container->getServiceDefinitions())
@@ -107,6 +112,11 @@ class sfServiceContainerDumperXml extends sfServiceContainerDumper
     foreach ($this->container->getServiceDefinitions() as $id => $definition)
     {
       $code .= $this->addService($id, $definition);
+    }
+
+    foreach ($this->container->getAliases() as $alias => $id)
+    {
+      $code .= $this->addServiceAlias($alias, $id);
     }
 
     return sprintf("  <services>\n%s  </services>\n", $code);

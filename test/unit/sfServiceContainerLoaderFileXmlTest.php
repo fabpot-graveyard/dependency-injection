@@ -12,7 +12,7 @@ require_once dirname(__FILE__).'/../lib/lime/lime.php';
 require_once dirname(__FILE__).'/../../lib/sfServiceContainerAutoloader.php';
 sfServiceContainerAutoloader::register();
 
-$t = new lime_test(32);
+$t = new lime_test(34);
 
 class ProjectLoader extends sfServiceContainerLoaderFileXml
 {
@@ -113,6 +113,8 @@ $t->is($services['configurator2']->getConfigurator(), array(new sfServiceReferen
 $t->is($services['configurator3']->getConfigurator(), array('BazClass', 'configureStatic'), '->load() parses the configurator tag');
 $t->is($services['method_call1']->getMethodCalls(), array(array('setBar', array())), '->load() parses the method_call tag');
 $t->is($services['method_call2']->getMethodCalls(), array(array('setBar', array('foo', new sfServiceReference('foo'), array(true, false)))), '->load() parses the method_call tag');
+$t->ok(isset($services['alias_for_foo']), '->load() parses <service> elements');
+$t->is($services['alias_for_foo'], 'foo', '->load() parses aliases');
 
 list($services, $parameters) = $loader->doLoad(array('services6.xml', 'services7.xml'));
 $t->is($services['foo']->getClass(), 'BarClass', '->load() merges the services when multiple files are loaded');

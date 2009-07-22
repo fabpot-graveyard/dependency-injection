@@ -28,5 +28,6 @@ $container->setParameters(array(
   'baz_class' => 'BazClass',
   'foo' => 'bar',
 ));
+$container->setAlias('alias_for_foo', 'foo');
 
 return $container;

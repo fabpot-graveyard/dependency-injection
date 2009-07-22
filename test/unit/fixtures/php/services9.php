@@ -51,6 +51,11 @@ class ProjectServiceContainer extends sfServiceContainer
     return $this->shared['foo_bar'] = $instance;
   }
 
+  protected function getAliasForFooService()
+  {
+    return $this->getService('foo');
+  }
+
   protected function getDefaultParameters()
   {
     return array (

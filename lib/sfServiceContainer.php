@@ -45,10 +45,10 @@
 class sfServiceContainer implements sfServiceContainerInterface, ArrayAccess, Iterator
 {
   protected
-    $serviceIds  = array(),
-    $parameters  = array(),
-    $services    = array(),
-    $count       = 0;
+    $serviceIds = array(),
+    $parameters = array(),
+    $services   = array(),
+    $count      = 0;
 
   /**
    * Constructor.

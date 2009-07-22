@@ -12,7 +12,7 @@ require_once dirname(__FILE__).'/../lib/lime/lime.php';
 require_once dirname(__FILE__).'/../../lib/sfServiceContainerAutoloader.php';
 sfServiceContainerAutoloader::register();
 
-$t = new lime_test(9);
+$t = new lime_test(10);
 
 class ProjectLoader extends sfServiceContainerLoader
 {
@@ -67,8 +67,9 @@ $t->is($container->getParameters(), array('bar' => 'foo', 'foo' => 'foo', 'baz' 
 $loader->setServiceContainer($container = new sfServiceContainerBuilder());
 $container->register('foo', 'FooClass');
 $container->register('bar', 'BarClass');
-$loader->load(array(array('baz' => new sfServiceDefinition('BazClass')), array()));
+$loader->load(array(array('baz' => new sfServiceDefinition('BazClass'), 'alias_for_foo' => 'foo'), array()));
 $t->is(array_keys($container->getServiceDefinitions()), array('foo', 'bar', 'baz'), '->load() merges definitions already defined ones');
+$t->is($container->getAliases(), array('alias_for_foo' => 'foo'), '->load() registers defined aliases');
 
 $loader->setServiceContainer($container = new sfServiceContainerBuilder());
 $container->register('foo', 'FooClass');

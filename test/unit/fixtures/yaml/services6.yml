@@ -17,3 +17,4 @@ services:
     class: FooClass
     calls:
       - [ setBar, [ foo, @foo, [true, false] ] ]
+  alias_for_foo: @foo

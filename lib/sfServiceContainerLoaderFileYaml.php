@@ -109,6 +109,11 @@ class sfServiceContainerLoaderFileYaml extends sfServiceContainerLoaderFile
 
   protected function parseDefinition($service, $file)
   {
+    if (is_string($service) && 0 === strpos($service, '@'))
+    {
+      return substr($service, 1);
+    }
+
     $definition = new sfServiceDefinition($service['class']);
 
     if (isset($service['shared']))

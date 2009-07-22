@@ -265,6 +265,19 @@ definition as an argument:
 Notice that neither the `argument`, nor the `service` attribute has an `id`
 defined.
 
+### Aliases
+
+You can define an alias for an existing service by using the `alias`
+attribute when defining the service:
+
+    [php]
+    <services>
+      <service id="alias_for_foo" alias="foo" />
+    </services>
+
+The `alias_for_foo` service is now an alias of the `foo` service.
+Notice that the `<service>` tag must be empty.
+
 Imports
 -------
 

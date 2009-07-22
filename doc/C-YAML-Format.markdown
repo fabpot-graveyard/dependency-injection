@@ -144,6 +144,16 @@ Here is an example that uses most possibilities:
         calls:
           - [ setBar, [ foo, @foo, [true, false] ] ]
 
+### Aliases
+
+You can define an alias for an existing service by simply assigning a service
+reference to the alias:
+
+    [php]
+    alias_for_foo: @foo
+
+The `alias_for_foo` service is now an alias of the `foo` service.
+
 Imports
 -------
 

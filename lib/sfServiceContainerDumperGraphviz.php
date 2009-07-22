@@ -84,7 +84,9 @@ class sfServiceContainerDumperGraphviz extends sfServiceContainerDumper
     $code = '';
     foreach ($this->nodes as $id => $node)
     {
-      $code .= sprintf("  node_%s [label=\"%s\\n%s\\n\", shape=%s%s];\n", $this->dotize($id), $id, $node['class'], $this->options['node']['shape'], $this->addAttributes($node['attributes']));
+      $aliases = $this->getAliases($id);
+
+      $code .= sprintf("  node_%s [label=\"%s\\n%s\\n\", shape=%s%s];\n", $this->dotize($id), $id.($aliases ? ' ('.implode(', ', $aliases).')' : ''), $node['class'], $this->options['node']['shape'], $this->addAttributes($node['attributes']));
     }
 
     return $code;
@@ -142,6 +144,11 @@ class sfServiceContainerDumperGraphviz extends sfServiceContainerDumper
 
     foreach ($container as $id => $service)
     {
+      if (in_array($id, array_keys($container->getAliases())))
+      {
+        continue;
+      }
+
       if (!$container->hasServiceDefinition($id))
       {
         $nodes[$id] = array('class' => get_class($service), 'attributes' => $this->options['node.instance']);
@@ -197,5 +204,19 @@ class sfServiceContainerDumperGraphviz extends sfServiceContainerDumper
   protected function dotize($id)
   {
     return strtolower(preg_replace('/[^\w]/i', '_', $id));
+  }
+
+  protected function getAliases($id)
+  {
+    $aliases = array();
+    foreach ($this->container->getAliases() as $alias => $origin)
+    {
+      if ($id == $origin)
+      {
+        $aliases[] = $alias;
+      }
+    }
+
+    return $aliases;
   }
 }

@@ -31,5 +31,6 @@
     </service>
     <service id="foo_bar" class="FooClass">
     </service>
+    <service id="alias_for_foo" alias="foo" />
   </services>
 </container>

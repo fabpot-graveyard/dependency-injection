@@ -14,7 +14,7 @@ sfServiceContainerAutoloader::register();
 
 require_once dirname(__FILE__).'/../lib/yaml/sfYaml.php';
 
-$t = new lime_test(23);
+$t = new lime_test(25);
 
 class ProjectLoader extends sfServiceContainerLoaderFileYaml
 {
@@ -99,6 +99,8 @@ $t->is($services['configurator2']->getConfigurator(), array(new sfServiceReferen
 $t->is($services['configurator3']->getConfigurator(), array('BazClass', 'configureStatic'), '->load() parses the configurator tag');
 $t->is($services['method_call1']->getMethodCalls(), array(array('setBar', array())), '->load() parses the method_call tag');
 $t->is($services['method_call2']->getMethodCalls(), array(array('setBar', array('foo', new sfServiceReference('foo'), array(true, false)))), '->load() parses the method_call tag');
+$t->ok(isset($services['alias_for_foo']), '->load() parses aliases');
+$t->is($services['alias_for_foo'], 'foo', '->load() parses aliases');
 
 list($services, $parameters) = $loader->doLoad(array('services6.yml', 'services7.yml'));
 $t->is($services['foo']->getClass(), 'BarClass', '->load() merges the services when multiple files are loaded');

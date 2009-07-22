@@ -21,7 +21,21 @@ class sfServiceContainerBuilder extends sfServiceContainer
 {
   protected
     $definitions = array(),
+    $aliases     = array(),
     $loading     = array();
+
+  /**
+   * Sets a service.
+   *
+   * @param string $id      The service identifier
+   * @param object $service The service instance
+   */
+  public function setService($id, $service)
+  {
+    unset($this->aliases[$id]);
+
+    parent::setService($id, $service);
+  }
 
   /**
    * Returns true if the given service is defined.
@@ -32,7 +46,7 @@ class sfServiceContainerBuilder extends sfServiceContainer
    */
   public function hasService($id)
   {
-    return isset($this->definitions[$id]) || parent::hasService($id);
+    return isset($this->definitions[$id]) || isset($this->aliases[$id]) || parent::hasService($id);
   }
 
   /**
@@ -56,6 +70,11 @@ class sfServiceContainerBuilder extends sfServiceContainer
       if (isset($this->loading[$id]))
       {
         throw new LogicException(sprintf('The service "%s" has a circular reference to itself.', $id));
+      }
+
+      if (!$this->hasServiceDefinition($id) && isset($this->aliases[$id]))
+      {
+        return $this->getService($this->aliases[$id]);
       }
 
       $definition = $this->getServiceDefinition($id);
@@ -84,7 +103,28 @@ class sfServiceContainerBuilder extends sfServiceContainer
    */
   public function getServiceIds()
   {
-    return array_unique(array_merge(array_keys($this->getServiceDefinitions()), parent::getServiceIds()));
+    return array_unique(array_merge(array_keys($this->getServiceDefinitions()), array_keys($this->aliases), parent::getServiceIds()));
+  }
+
+  /**
+   * Sets an alias for an existing service.
+   *
+   * @param string $alias The alias to create
+   * @param string $id    The service to alias
+   */
+  public function setAlias($alias, $id)
+  {
+    $this->aliases[$alias] = $id;
+  }
+
+  /**
+   * Gets all defined aliases.
+   *
+   * @return array An array of aliases
+   */
+  public function getAliases()
+  {
+    return $this->aliases;
   }
 
   /**
@@ -145,6 +185,8 @@ class sfServiceContainerBuilder extends sfServiceContainer
    */
   public function setServiceDefinition($id, sfServiceDefinition $definition)
   {
+    unset($this->aliases[$id]);
+
     return $this->definitions[$id] = $definition;
   }
 

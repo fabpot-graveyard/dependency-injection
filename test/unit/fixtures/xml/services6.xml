@@ -40,5 +40,6 @@
         </argument>
       </call>
     </service>
+    <service id="alias_for_foo" alias="foo" />
   </services>
 </container>

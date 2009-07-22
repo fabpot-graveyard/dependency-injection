@@ -177,3 +177,14 @@ the `addMethodCall()` method:
 
 The first argument is the method to call on the service, and the
 second one is an array of arguments to use when calling it.
+
+### Aliases
+
+You can define an alias for an existing service by using the `setAlias()`
+method:
+
+    [php]
+    $container->setAlias('alias_for_foo', 'foo');
+
+The `alias_for_foo` service is now an alias of the `foo` service.
+

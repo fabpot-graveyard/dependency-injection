@@ -171,12 +171,31 @@ EOF;
     return $code;
   }
 
+  protected function addServiceAlias($alias, $id)
+  {
+    $name = sfServiceContainer::camelize($alias);
+
+    return <<<EOF
+
+  protected function get{$name}Service()
+  {
+    return {$this->getServiceCall($id)};
+  }
+
+EOF;
+  }
+
   protected function addServices()
   {
     $code = '';
     foreach ($this->container->getServiceDefinitions() as $id => $definition)
     {
       $code .= $this->addService($id, $definition);
+    }
+
+    foreach ($this->container->getAliases() as $alias => $id)
+    {
+      $code .= $this->addServiceAlias($alias, $id);
     }
 
     return $code;

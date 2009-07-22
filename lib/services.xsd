@@ -43,9 +43,10 @@
       <xs:element name="call" type="call" minOccurs="0" maxOccurs="unbounded" />
     </xs:choice>
     <xs:attribute name="id" type="xs:string" />
-    <xs:attribute name="class" type="xs:string" use="required" />
+    <xs:attribute name="class" type="xs:string" />
     <xs:attribute name="shared" type="boolean" />
     <xs:attribute name="constructor" type="xs:string" />
+    <xs:attribute name="alias" type="xs:string" />
   </xs:complexType>
 
   <xs:complexType name="parameters">

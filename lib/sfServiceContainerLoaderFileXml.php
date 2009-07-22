@@ -143,6 +143,11 @@ class sfServiceContainerLoaderFileXml extends sfServiceContainerLoaderFile
 
   protected function parseDefinition($service, $file)
   {
+    if ((string) $service['alias'])
+    {
+      return (string) $service['alias'];
+    }
+
     $definition = new sfServiceDefinition((string) $service['class']);
 
     foreach (array('shared', 'constructor') as $key)

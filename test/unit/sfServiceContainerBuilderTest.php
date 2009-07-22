@@ -12,7 +12,7 @@ require_once dirname(__FILE__).'/../lib/lime/lime.php';
 require_once dirname(__FILE__).'/../../lib/sfServiceContainerAutoloader.php';
 sfServiceContainerAutoloader::register();
 
-$t = new lime_test(41);
+$t = new lime_test(46);
 
 // ->setServiceDefinitions() ->addServiceDefinitions() ->getServiceDefinitions() ->setServiceDefinition() ->getServiceDefinition() ->hasServiceDefinition()
 $t->diag('->setServiceDefinitions() ->addServiceDefinitions() ->getServiceDefinitions() ->setServiceDefinition() ->getServiceDefinition() ->hasServiceDefinition()');
@@ -99,6 +99,25 @@ $builder->register('foo', 'stdClass');
 $builder->bar = $bar = new stdClass();
 $builder->register('bar', 'stdClass');
 $t->is($builder->getServiceIds(), array('foo', 'bar', 'service_container'), '->getServiceIds() returns all defined service ids');
+
+// ->setAlias()
+$t->diag('->setAlias()');
+$builder = new sfServiceContainerBuilder();
+$builder->register('foo', 'stdClass');
+$builder->setAlias('bar', 'foo');
+$t->ok($builder->hasService('bar'), '->setAlias() defines a new service');
+$t->ok($builder->getService('bar') === $builder->getService('foo'), '->setAlias() creates a service that is an alias to another one');
+
+// ->getAliases()
+$t->diag('->getAliases()');
+$builder = new sfServiceContainerBuilder();
+$builder->setAlias('bar', 'foo');
+$builder->setAlias('foobar', 'foo');
+$t->is($builder->getAliases(), array('bar' => 'foo', 'foobar' => 'foo'), '->getAliases() returns all service aliases');
+$builder->register('bar', 'stdClass');
+$t->is($builder->getAliases(), array('foobar' => 'foo'), '->getAliases() does not return aliased services that have been overridden');
+$builder->setService('foobar', 'stdClass');
+$t->is($builder->getAliases(), array(), '->getAliases() does not return aliased services that have been overridden');
 
 // ->createService() # file
 $t->diag('->createService() # file');
