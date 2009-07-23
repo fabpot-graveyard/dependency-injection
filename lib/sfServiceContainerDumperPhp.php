@@ -24,7 +24,8 @@ class sfServiceContainerDumperPhp extends sfServiceContainerDumper
    *
    * Available options:
    *
-   *  * class: The class name
+   *  * class:      The class name
+   *  * base_class: The base class name
    *
    * @param  array  $options An array of options
    *
@@ -37,7 +38,13 @@ class sfServiceContainerDumperPhp extends sfServiceContainerDumper
       'base_class' => 'sfServiceContainer',
     ), $options);
 
-    return $this->startClass($options['class'], $options['base_class']).$this->addServices().$this->endClass();
+    return
+      $this->startClass($options['class'], $options['base_class']).
+      $this->addConstructor().
+      $this->addServices().
+      $this->addDefaultParametersMethod().
+      $this->endClass()
+    ;
   }
 
   protected function addServiceInclude($id, $definition)
@@ -161,12 +168,14 @@ EOF;
 
 EOF;
 
-    $code .= $this->addServiceInclude($id, $definition);
-    $code .= $this->addServiceShared($id, $definition);
-    $code .= $this->addServiceInstance($id, $definition);
-    $code .= $this->addServiceMethodCalls($id, $definition);
-    $code .= $this->addServiceConfigurator($id, $definition);
-    $code .= $this->addServiceReturn($id, $definition);
+    $code .=
+      $this->addServiceInclude($id, $definition).
+      $this->addServiceShared($id, $definition).
+      $this->addServiceInstance($id, $definition).
+      $this->addServiceMethodCalls($id, $definition).
+      $this->addServiceConfigurator($id, $definition).
+      $this->addServiceReturn($id, $definition)
+    ;
 
     return $code;
   }
@@ -203,7 +212,7 @@ EOF;
 
   protected function startClass($class, $baseClass)
   {
-    $code = <<<EOF
+    return <<<EOF
 <?php
 
 class $class extends $baseClass
@@ -211,10 +220,16 @@ class $class extends $baseClass
   protected \$shared = array();
 
 EOF;
+  }
 
-    if ($this->container->getParameters())
+  protected function addConstructor()
+  {
+    if (!$this->container->getParameters())
     {
-      $code .= <<<EOF
+      return '';
+    }
+
+    return <<<EOF
 
   public function __construct()
   {
@@ -222,20 +237,18 @@ EOF;
   }
 
 EOF;
-    }
-
-    return $code;
   }
 
-  protected function endClass()
+  protected function addDefaultParametersMethod()
   {
-    $code = '';
-
-    if ($this->container->getParameters())
+    if (!$this->container->getParameters())
     {
-      $parameters = var_export($this->container->getParameters(), true);
+      return '';
+    }
 
-      $code .= <<<EOF
+    $parameters = var_export($this->container->getParameters(), true);
+
+    return <<<EOF
 
   protected function getDefaultParameters()
   {
@@ -243,9 +256,11 @@ EOF;
   }
 
 EOF;
-    }
+  }
 
-    return $code.<<<EOF
+  protected function endClass()
+  {
+    return <<<EOF
 }
 
 EOF;
