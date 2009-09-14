@@ -35,8 +35,7 @@ class ProjectServiceContainer extends sfServiceContainer
   {
     if (isset($this->shared['foo.baz'])) return $this->shared['foo.baz'];
 
-    $class = $this->getParameter('baz_class');
-    $instance = new $class();
+    $instance = call_user_func(array($this->getParameter('baz_class'), 'getInstance'));
     call_user_func(array($this->getParameter('baz_class'), 'configureStatic1'), $instance);
 
     return $this->shared['foo.baz'] = $instance;

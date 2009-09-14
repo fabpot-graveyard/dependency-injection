@@ -21,6 +21,7 @@ $container->
 ;
 $container->
   register('foo.baz', '%baz_class%')->
+  setConstructor('getInstance')->
   setConfigurator(array('%baz_class%', 'configureStatic1'))
 ;
 $container->register('foo_bar', 'FooClass');

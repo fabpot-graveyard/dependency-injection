@@ -16,6 +16,11 @@ class BazClass
     $instance->configure();
   }
 
+  static public function getInstance()
+  {
+    return new self();
+  }
+
   static public function configureStatic($instance)
   {
     $instance->configure();

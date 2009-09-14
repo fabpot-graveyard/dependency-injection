@@ -101,7 +101,7 @@ EOF;
 
     if (!is_null($definition->getConstructor()))
     {
-      return sprintf("    \$instance = call_user_func(array(%s, '%s'), %s);\n", $class, $definition->getConstructor(), implode(', ', $arguments));
+      return sprintf("    \$instance = call_user_func(array(%s, '%s')%s);\n", $class, $definition->getConstructor(), $arguments ? ', '.implode(', ', $arguments) : '');
     }
     else
     {

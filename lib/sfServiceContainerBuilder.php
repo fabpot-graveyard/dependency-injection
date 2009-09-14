@@ -241,7 +241,7 @@ class sfServiceContainerBuilder extends sfServiceContainer
 
     if (!is_null($definition->getConstructor()))
     {
-      $service = call_user_func_array(array($definition->getClass(), $definition->getConstructor()), $arguments);
+      $service = call_user_func_array(array($this->resolveValue($definition->getClass()), $definition->getConstructor()), $arguments);
     }
     else
     {

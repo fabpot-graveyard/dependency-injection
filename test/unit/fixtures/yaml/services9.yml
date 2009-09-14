@@ -20,6 +20,7 @@ services:
     configurator: [@foo.baz, configure]
   foo.baz:
     class: %baz_class%
+    constructor: getInstance
     configurator: [%baz_class%, configureStatic1]
   foo_bar:
     class: FooClass
