@@ -12,7 +12,7 @@ require_once dirname(__FILE__).'/../lib/lime/lime.php';
 require_once dirname(__FILE__).'/../../lib/sfServiceContainerAutoloader.php';
 sfServiceContainerAutoloader::register();
 
-$t = new lime_test(10);
+$t = new lime_test(11);
 
 class ProjectLoader extends sfServiceContainerLoader
 {
@@ -75,3 +75,7 @@ $loader->setServiceContainer($container = new sfServiceContainerBuilder());
 $container->register('foo', 'FooClass');
 $loader->load(array(array('foo' => new sfServiceDefinition('BazClass')), array()));
 $t->is($container->getServiceDefinition('foo')->getClass(), 'BazClass', '->load() overrides already defined services');
+
+$loader->setServiceContainer($container = new sfServiceContainerBuilder());
+$loader->load(array(array(), array('foo' => 'bar')), array(array(), array('bar' => 'foo')));
+$t->is($container->getParameters(), array('foo' => 'bar', 'bar' => 'foo'), '->load() accepts several resources as argument');
