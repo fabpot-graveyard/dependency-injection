@@ -144,6 +144,13 @@ You can escape a `%` by doubling it:
       <parameter key="foo">The string has no placeholder... %%foo</parameter>
     </parameters>
 
+A parameter can also be a reference to a service:
+
+    [xml]
+    <parameters>
+      <parameter key="foo" type="service" id="bar" />
+    </parameters>
+
 Services
 --------
 

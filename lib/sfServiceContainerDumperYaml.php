@@ -114,7 +114,7 @@ class sfServiceContainerDumperYaml extends sfServiceContainerDumper
       return '';
     }
 
-    return sfYaml::dump(array('parameters' => $this->escape($this->container->getParameters())), 2);
+    return sfYaml::dump(array('parameters' => $this->prepareParameters($this->container->getParameters())), 2);
   }
 
   protected function dumpValue($value)
@@ -133,6 +133,10 @@ class sfServiceContainerDumperYaml extends sfServiceContainerDumper
     {
       return $this->getServiceCall((string) $value);
     }
+    elseif (is_object($value) && $value instanceof sfServiceParameter)
+    {
+      return $this->getParameterCall((string) $value);
+    }
     elseif (is_object($value) || is_resource($value))
     {
       throw new RuntimeException('Unable to dump a service container if a parameter is an object or a resource.');
@@ -146,6 +150,31 @@ class sfServiceContainerDumperYaml extends sfServiceContainerDumper
   protected function getServiceCall($id)
   {
     return sprintf('@%s', $id);
+  }
+
+  protected function getParameterCall($id)
+  {
+    return sprintf('%%%s%%', $id);
+  }
+
+  protected function prepareParameters($parameters)
+  {
+    $filtered = array();
+    foreach ($parameters as $key => $value)
+    {
+      if (is_array($value))
+      {
+        $value = $this->prepareParameters($value);
+      }
+      elseif ($value instanceof sfServiceReference)
+      {
+        $value = '@'.$value;
+      }
+
+      $filtered[$key] = $value;
+    }
+
+    return $this->escape($filtered);
   }
 
   protected function escape($arguments)

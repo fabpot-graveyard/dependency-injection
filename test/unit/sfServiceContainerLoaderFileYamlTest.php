@@ -72,22 +72,22 @@ $t->is(key($yamls), realpath(dirname(__FILE__).'/fixtures/yaml/services1.yml'), 
 $t->diag('->load() # parameters');
 $loader = new ProjectLoader(null, dirname(__FILE__).'/fixtures/yaml');
 list($services, $parameters) = $loader->doLoad(array('services2.yml'));
-$t->is($parameters, array('foo' => 'bar', 'values' => array(true, false, 0, 1000.3), 'bar' => 'foo'), '->load() converts YAML keys to lowercase');
+$t->is($parameters, array('foo' => 'bar', 'values' => array(true, false, 0, 1000.3), 'bar' => 'foo', 'foo_bar' => new sfServiceReference('foo_bar')), '->load() converts YAML keys to lowercase');
 
 $loader = new ProjectLoader(null, dirname(__FILE__).'/fixtures/yaml');
 list($services, $parameters) = $loader->doLoad(array('services2.yml', 'services3.yml'));
-$t->is($parameters, array('foo' => 'foo', 'values' => array(true, false), 'bar' => 'foo'), '->load() merges the first level of arguments when multiple files are loaded');
+$t->is($parameters, array('foo' => 'foo', 'values' => array(true, false), 'bar' => 'foo', 'foo_bar' => new sfServiceReference('foo_bar')), '->load() merges the first level of arguments when multiple files are loaded');
 
 // ->load() # imports
 $t->diag('->load() # imports');
 list($services, $parameters) = $loader->doLoad(array('services4.yml'));
-$t->is($parameters, array('foo' => 'bar', 'bar' => '%foo%', 'values' => array(true, false)), '->load() imports and merges imported files');
+$t->is($parameters, array('foo' => 'bar', 'bar' => '%foo%', 'values' => array(true, false), 'foo_bar' => new sfServiceReference('foo_bar')), '->load() imports and merges imported files');
 
 // ->load() # services
 $t->diag('->load() # services');
 list($services, $parameters) = $loader->doLoad(array('services6.yml'));
-$t->ok(isset($services['foo']), '->load() parses <service> elements');
-$t->is(get_class($services['foo']), 'sfServiceDefinition', '->load() converts <service> element to sfServiceDefinition instances');
+$t->ok(isset($services['foo']), '->load() parses service elements');
+$t->is(get_class($services['foo']), 'sfServiceDefinition', '->load() converts service element to sfServiceDefinition instances');
 $t->is($services['foo']->getClass(), 'FooClass', '->load() parses the class attribute');
 $t->ok($services['shared']->isShared(), '->load() parses the shared attribute');
 $t->ok(!$services['non_shared']->isShared(), '->load() parses the shared attribute');

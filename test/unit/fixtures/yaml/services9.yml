@@ -1,6 +1,7 @@
 parameters:
   baz_class: BazClass
   foo: bar
+  foo_bar: '@foo_bar'
 
 services:
   foo:
@@ -16,7 +17,7 @@ services:
     configurator: sc_configure
   bar:
     class: FooClass
-    arguments: [foo, '@foo.baz']
+    arguments: [foo, '@foo.baz', '%foo_bar%']
     configurator: ['@foo.baz', configure]
   foo.baz:
     class: %baz_class%

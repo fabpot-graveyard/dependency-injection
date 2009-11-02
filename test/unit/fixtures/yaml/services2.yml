@@ -6,3 +6,4 @@ parameters:
     - 0
     - 1000.3
   bar: foo
+  foo_bar: @foo_bar

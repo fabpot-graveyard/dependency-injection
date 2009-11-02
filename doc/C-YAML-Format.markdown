@@ -71,6 +71,11 @@ You can escape a `%` by doubling it:
     parameters:
       foo: The string has no placeholder... %%foo
 
+A parameter can also be a reference to a service:
+
+    [xml]
+    foo: @bar
+
 Services
 --------
 

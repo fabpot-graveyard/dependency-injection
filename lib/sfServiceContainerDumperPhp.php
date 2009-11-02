@@ -246,7 +246,7 @@ EOF;
       return '';
     }
 
-    $parameters = var_export($this->container->getParameters(), true);
+    $parameters = $this->exportParameters($this->container->getParameters());
 
     return <<<EOF
 
@@ -256,6 +256,34 @@ EOF;
   }
 
 EOF;
+  }
+
+  protected function exportParameters($parameters, $indent = 6)
+  {
+    $php = array();
+    foreach ($parameters as $key => $value)
+    {
+      if (is_array($value))
+      {
+        $value = $this->exportParameters($value, $indent + 2);
+      }
+      elseif ($value instanceof sfServiceReference)
+      {
+        $value = sprintf("new sfServiceReference('%s')", $value);
+      }
+      elseif ($value instanceof sfServiceParameter)
+      {
+        $value = sprintf("\$this->getParameter('%s')", $value);
+      }
+      else
+      {
+        $value = var_export($value, true);
+      }
+
+      $php[] = sprintf('%s%s => %s,', str_repeat(' ', $indent), var_export($key, true), $value);
+    }
+
+    return sprintf("array(\n%s\n%s)", implode("\n", $php), str_repeat(' ', $indent - 2));
   }
 
   protected function endClass()
@@ -281,6 +309,10 @@ EOF;
     elseif (is_object($value) && $value instanceof sfServiceReference)
     {
       return $this->getServiceCall((string) $value);
+    }
+    elseif (is_object($value) && $value instanceof sfServiceParameter)
+    {
+      return sprintf("\$this->getParameter('%s')", strtolower($value));
     }
     elseif (is_string($value))
     {

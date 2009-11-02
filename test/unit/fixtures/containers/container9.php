@@ -15,7 +15,7 @@ $container->
 ;
 $container->
   register('bar', 'FooClass')->
-  setArguments(array('foo', new sfServiceReference('foo.baz')))->
+  setArguments(array('foo', new sfServiceReference('foo.baz'), new sfServiceParameter('foo_bar')))->
   setShared(true)->
   setConfigurator(array(new sfServiceReference('foo.baz'), 'configure'))
 ;
@@ -28,6 +28,7 @@ $container->register('foo_bar', 'FooClass');
 $container->setParameters(array(
   'baz_class' => 'BazClass',
   'foo' => 'bar',
+  'foo_bar' => new sfServiceReference('foo_bar'),
 ));
 $container->setAlias('alias_for_foo', 'foo');
 

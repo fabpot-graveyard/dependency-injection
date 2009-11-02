@@ -43,7 +43,7 @@ class sfServiceContainerLoaderFileYaml extends sfServiceContainerLoaderFile
       {
         foreach ($content['parameters'] as $key => $value)
         {
-          $parameters[strtolower($key)] = $value;
+          $parameters[strtolower($key)] = $this->resolveServices($value);
         }
       }
 

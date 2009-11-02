@@ -111,6 +111,15 @@ class sfServiceContainerDumperGraphviz extends sfServiceContainerDumper
     $edges = array();
     foreach ($arguments as $argument)
     {
+      if (is_object($argument) && $argument instanceof sfServiceParameter)
+      {
+        $argument = $this->container->hasParameter($argument) ? $this->container->getParameter($argument) : null;
+      }
+      elseif (is_string($argument) && preg_match('/^%([^%]+)%$/', $argument, $match))
+      {
+        $argument = $this->container->hasParameter($match[1]) ? $this->container->getParameter($match[1]) : null;
+      }
+
       if ($argument instanceof sfServiceReference)
       {
         if (!$this->container->hasService((string) $argument))

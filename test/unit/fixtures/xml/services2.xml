@@ -21,5 +21,6 @@
         <parameter>bar</parameter>
       </parameter>
     </parameter>
+    <parameter key="foo_bar" type="service" id="foo_bar" />
   </parameters>
 </container>

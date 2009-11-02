@@ -68,16 +68,16 @@ $t->is(get_class(current($xmls)), 'sfServiceSimpleXMLElement', '->getFilesAsXml(
 $t->diag('->load() # parameters');
 $loader = new ProjectLoader(null, dirname(__FILE__).'/fixtures/xml');
 list($services, $parameters) = $loader->doLoad(array('services2.xml'));
-$t->is($parameters, array('a string', 'foo' => 'bar', 'values' => array(0, 'integer' => 4, 100 => null, 'true', true, false, true, false, 'float' => 1.3, 1000.3, 'a string', array('foo', 'bar'))), '->load() converts XML values to PHP ones');
+$t->is($parameters, array('a string', 'foo' => 'bar', 'values' => array(0, 'integer' => 4, 100 => null, 'true', true, false, true, false, 'float' => 1.3, 1000.3, 'a string', array('foo', 'bar')), 'foo_bar' => new sfServiceReference('foo_bar')), '->load() converts XML values to PHP ones');
 
 $loader = new ProjectLoader(null, dirname(__FILE__).'/fixtures/xml');
 list($services, $parameters) = $loader->doLoad(array('services2.xml', 'services3.xml'));
-$t->is($parameters, array('a string', 'foo' => 'foo', 'values' => array(true, false)), '->load() merges the first level of arguments when multiple files are loaded');
+$t->is($parameters, array('a string', 'foo' => 'foo', 'values' => array(true, false), 'foo_bar' => new sfServiceReference('foo_bar')), '->load() merges the first level of arguments when multiple files are loaded');
 
 // ->load() # imports
 $t->diag('->load() # imports');
 list($services, $parameters) = $loader->doLoad(array('services4.xml'));
-$t->is($parameters, array('a string', 'foo' => 'bar', 'bar' => '%foo%', 'values' => array(true, false)), '->load() imports and merges imported files');
+$t->is($parameters, array('a string', 'foo' => 'bar', 'bar' => '%foo%', 'values' => array(true, false), 'foo_bar' => new sfServiceReference('foo_bar')), '->load() imports and merges imported files');
 
 // ->load() # anonymous services
 $t->diag('->load() # anonymous services');
