@@ -163,8 +163,8 @@ class sfServiceContainer implements sfServiceContainerInterface, ArrayAccess, It
   /**
    * Gets a service.
    *
-   * If a service is both defined through a setService() method and
-   * with a set*Service() method, the former has always precedence.
+   * If a service is defined both through a call to the setService() method
+   * and with a get{$id}Service() method, the former has always precedence.
    *
    * @param  string $id The service identifier
    *
